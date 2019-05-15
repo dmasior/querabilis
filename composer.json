@@ -1,0 +1,14 @@
+{
+    "name": "initx/querabilis",
+    "description": "PHP Queue Library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "initx",
+            "email": "solver89@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
