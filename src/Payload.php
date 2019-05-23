@@ -2,8 +2,7 @@
 
 namespace Initx;
 
-use Serializable;
-
-interface Payload extends Serializable
+interface Payload
 {
+    public function __toString(): string;
 }

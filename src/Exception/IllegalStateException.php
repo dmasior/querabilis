@@ -2,8 +2,12 @@
 
 namespace Initx\Exception;
 
-use Throwable;
+use Exception;
 
-interface IllegalStateException extends Throwable
+class IllegalStateException extends Exception
 {
+    public static function create(string $message)
+    {
+        return new static($message);
+    }
 }

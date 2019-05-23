@@ -4,6 +4,6 @@ namespace Initx\Exception;
 
 use Throwable;
 
-interface NoSuchElementException extends Throwable
+class NoSuchElementException extends Throwable
 {
 }

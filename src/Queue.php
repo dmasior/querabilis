@@ -22,7 +22,7 @@ interface Queue
      * @param Envelope $envelope
      * @return void|null
      */
-    public function offer(Envelope $envelope): ?void;
+    public function offer(Envelope $envelope): void;
 
     /**
      * Remove and return head of queue, otherwise throwing exception.
