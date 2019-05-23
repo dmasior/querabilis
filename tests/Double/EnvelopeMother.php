@@ -12,6 +12,6 @@ class EnvelopeMother
         $faker = Factory::create();
         $payload = PayloadMother::any();
 
-        return new Envelope($faker->title, $payload);
+        return new Envelope($faker->company, $payload);
     }
 }

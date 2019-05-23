@@ -8,6 +8,7 @@ use Initx\Exception\NoSuchElementException;
 use Initx\Queue;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
+use Throwable;
 
 final class FilesystemQueue implements Queue
 {
@@ -57,7 +58,17 @@ final class FilesystemQueue implements Queue
 
     private function write(Envelope $envelope): bool
     {
-        return (bool)file_put_contents($this->path, $this->serializer->serialize($envelope, 'json'), FILE_APPEND);
+        try {
+            $result = (bool)file_put_contents(
+                $this->path,
+                $this->serializer->serialize($envelope, 'json'),
+                FILE_APPEND
+            );
+        } catch (Throwable $exception) {
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**

@@ -7,6 +7,13 @@ $ composer require initx/querabilis
 ```
 ### Usage
 ```
+use Initx\Envelope;
+use Initx\PlainPayload;
+use Initx\Driver\FilesystemQueue;
+
 $queue = new FilesystemQueue('./queue');
+
+$envelope = new Envelope('title', new PlainPayload('Your payload'));
+
 $queue->add($envelope);
 ```

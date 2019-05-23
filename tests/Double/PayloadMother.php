@@ -4,6 +4,7 @@ namespace Initx\Tests\Double;
 
 use Faker\Factory;
 use Initx\Payload;
+use Initx\PlainPayload;
 
 class PayloadMother
 {
