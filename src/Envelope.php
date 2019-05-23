@@ -22,10 +22,10 @@ final class Envelope
      */
     private $timestamp;
 
-    public function __construct(string $title, Payload $payload, DateTimeInterface $timestamp = null)
+    public function __construct(Payload $payload, ?string $title = null, ?DateTimeInterface $timestamp = null)
     {
-        $this->title = $title;
         $this->payload = $payload;
+        $this->title = $title ?: bin2hex(random_bytes(7));
         $this->timestamp = $timestamp ?: new DateTimeImmutable();
     }
 
