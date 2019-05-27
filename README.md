@@ -1,5 +1,4 @@
-# QUERABILIS
-## Simple PHP Queue Library
+## Simple PHP Queue
 [![Build Status](https://travis-ci.org/initx/querabilis.svg?branch=master)](https://travis-ci.org/initx/querabilis)
 [![Code Coverage](https://scrutinizer-ci.com/g/initx/querabilis/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/initx/querabilis/?branch=master)
 ### Installation
@@ -7,26 +6,23 @@
 $ composer require initx/querabilis
 ```
 ### Usage
+#### Driver
+```php
+use Initx\Driver\FilesystemQueue;
 
+$queue = new FilesystemQueue('./queue');
+```
 #### Add to queue
 ```php
 use Initx\Envelope;
-use Initx\Driver\FilesystemQueue;
 
-$queue = new FilesystemQueue('./queue');
-
-$envelope = new Envelope('Querabilis!');
+$envelope = new Envelope('Payload goes here');
 
 $queue->add($envelope);
 ```
-#### Remove from queue
+#### Grab element from head of queue
 ```php
-use Initx\Driver\FilesystemQueue;
-
-$queue = new FilesystemQueue('./queue');
-
-// Remove element from head of queue
 $envelope = $queue->remove();
 
-$envelope->getPayload(); // "Querabilis!"
+$envelope->getPayload(); // "Payload goes here"
 ```
