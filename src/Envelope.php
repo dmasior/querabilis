@@ -3,7 +3,6 @@
 namespace Initx;
 
 use DateTime;
-use DateTimeInterface;
 
 final class Envelope
 {
@@ -18,11 +17,11 @@ final class Envelope
     private $payload;
 
     /**
-     * @var DateTimeInterface
+     * @var DateTime
      */
     private $timestamp;
 
-    public function __construct(string $payload, ?string $title = null, ?DateTimeInterface $timestamp = null)
+    public function __construct(string $payload, ?string $title = null, ?DateTime $timestamp = null)
     {
         $this->title = $title ?: bin2hex(random_bytes(7));
         $this->timestamp = $timestamp ?: new DateTime();
@@ -46,9 +45,9 @@ final class Envelope
     }
 
     /**
-     * @return DateTimeInterface
+     * @return DateTime
      */
-    public function getTimestamp(): DateTimeInterface
+    public function getTimestamp(): DateTime
     {
         return $this->timestamp;
     }

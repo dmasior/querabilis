@@ -11,6 +11,6 @@ class EnvelopeMother
     {
         $faker = Factory::create();
 
-        return new Envelope($faker->text);
+        return new Envelope($faker->text, $faker->company, $faker->dateTime);
     }
 }

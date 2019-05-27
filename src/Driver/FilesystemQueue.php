@@ -25,8 +25,10 @@ final class FilesystemQueue implements Queue
     public function __construct(string $path, SerializerInterface $serializer = null)
     {
         if (!$serializer) {
+            $separator = DIRECTORY_SEPARATOR;
+            $metaDir = sprintf('%s%s..%s..%sconfig%sjms', __DIR__, $separator, $separator, $separator, $separator);
             $serializer = SerializerBuilder::create()
-                ->addMetadataDir(__DIR__ . '/../../config/jms', 'Initx')
+                ->addMetadataDir($metaDir, 'Initx')
                 ->build();
         }
         $this->serializer = $serializer;
@@ -60,7 +62,7 @@ final class FilesystemQueue implements Queue
 
     private function write(Envelope $envelope): bool
     {
-        $content = $this->serializer->serialize($envelope, 'json');
+        $content = $this->serializer->serialize($envelope, 'json') . PHP_EOL;
         try {
             $result = (bool)file_put_contents(
                 $this->path,

@@ -2,7 +2,6 @@
 
 namespace Initx\Tests;
 
-use DateTime;
 use Initx\Driver\FilesystemQueue;
 use Initx\Exception\IllegalStateException;
 use Initx\Exception\NoSuchElementException;
@@ -99,20 +98,19 @@ class FilesystemQueueTest extends TestCase
     public function removeOk(): void
     {
         // arrange
-        $envelope = EnvelopeMother::any();
+        $one = EnvelopeMother::any();
+        $two = EnvelopeMother::any();
         $queue = new FilesystemQueue($this->path);
-        $queue->add($envelope);
+        $queue->add($one);
+        $queue->add($two);
 
         // act
-        $actual = $queue->remove();
+        $actualOne = $queue->remove();
+        $actualTwo = $queue->remove();
 
         // assert
-        $this->assertSame($envelope->getTitle(), $actual->getTitle());
-        $this->assertSame($envelope->getPayload(), $actual->getPayload());
-        $this->assertSame(
-            $envelope->getTimestamp()->format(DateTime::ATOM),
-            $actual->getTimestamp()->format(DateTime::ATOM)
-        );
+        $this->assertEquals($actualOne, $one);
+        $this->assertEquals($actualTwo, $two);
     }
 
     /**
