@@ -13,7 +13,7 @@ final class Envelope
     private $title;
 
     /**
-     * @var mixed
+     * @var string
      */
     private $payload;
 
@@ -22,11 +22,11 @@ final class Envelope
      */
     private $timestamp;
 
-    public function __construct($payload, ?string $title = null, ?DateTimeInterface $timestamp = null)
+    public function __construct(string $payload, ?string $title = null, ?DateTimeInterface $timestamp = null)
     {
-        $this->payload = $payload;
         $this->title = $title ?: bin2hex(random_bytes(7));
         $this->timestamp = $timestamp ?: new DateTimeImmutable();
+        $this->payload = $payload;
     }
 
     /**
@@ -38,9 +38,9 @@ final class Envelope
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPayload()
+    public function getPayload(): string
     {
         return $this->payload;
     }

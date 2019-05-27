@@ -11,10 +11,6 @@ class EnvelopeMother
     {
         $faker = Factory::create();
 
-        return new Envelope(new Qtaz());
+        return new Envelope($faker->text);
     }
-}
-class Qtaz {
-    private $b = 123;
-    protected $c = 344;
 }
