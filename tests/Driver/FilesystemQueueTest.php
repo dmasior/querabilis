@@ -25,7 +25,7 @@ class FilesystemQueueTest extends TestCase
     public function tearDown(): void
     {
         if (file_exists($this->path)) {
-//            unlink($this->path);
+            unlink($this->path);
         }
     }
 
