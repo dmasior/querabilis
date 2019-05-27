@@ -6,14 +6,16 @@
 $ composer require initx/querabilis
 ```
 ### Usage
+
+#### Add
 ```php
 use Initx\Envelope;
-use Initx\PlainPayload;
 use Initx\Driver\FilesystemQueue;
 
 $queue = new FilesystemQueue('./queue');
 
-$envelope = new Envelope(new PlainPayload('Your payload'));
+$envelope = new Envelope('Your Payload');
 
 $queue->add($envelope);
 ```
+#### Retrieve

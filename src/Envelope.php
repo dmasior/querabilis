@@ -13,7 +13,7 @@ final class Envelope
     private $title;
 
     /**
-     * @var Payload
+     * @var mixed
      */
     private $payload;
 
@@ -22,7 +22,7 @@ final class Envelope
      */
     private $timestamp;
 
-    public function __construct(Payload $payload, ?string $title = null, ?DateTimeInterface $timestamp = null)
+    public function __construct($payload, ?string $title = null, ?DateTimeInterface $timestamp = null)
     {
         $this->payload = $payload;
         $this->title = $title ?: bin2hex(random_bytes(7));
@@ -38,9 +38,9 @@ final class Envelope
     }
 
     /**
-     * @return Payload
+     * @return mixed
      */
-    public function getPayload(): Payload
+    public function getPayload()
     {
         return $this->payload;
     }

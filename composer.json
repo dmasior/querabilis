@@ -1,6 +1,6 @@
 {
   "name": "initx/querabilis",
-  "description": "Modern PHP Queue Library",
+  "description": "Simple PHP Queue Library",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -29,7 +29,7 @@
       "vendor/bin/phpunit -v"
     ],
     "test-coverage": [
-      "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
+      "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/coverage.xml"
     ]
   },
   "require-dev": {
