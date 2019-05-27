@@ -1,0 +1,12 @@
+Initx\Envelope:
+  exclusion_policy: ALL
+  properties:
+    title:
+      expose: true
+      type: string
+    payload:
+      expose: true
+      type: string
+    timestamp:
+      expose: true
+      type: DateTime

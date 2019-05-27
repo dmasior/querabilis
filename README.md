@@ -8,15 +8,25 @@ $ composer require initx/querabilis
 ```
 ### Usage
 
-#### Add
+#### Add to queue
 ```php
 use Initx\Envelope;
 use Initx\Driver\FilesystemQueue;
 
 $queue = new FilesystemQueue('./queue');
 
-$envelope = new Envelope('Your Payload');
+$envelope = new Envelope('Querabilis!');
 
 $queue->add($envelope);
 ```
-#### Retrieve
+#### Remove from queue
+```php
+use Initx\Driver\FilesystemQueue;
+
+$queue = new FilesystemQueue('./queue');
+
+// Remove element from head of queue
+$envelope = $queue->remove();
+
+$envelope->getPayload(); // "Querabilis!"
+```

@@ -2,8 +2,10 @@
 
 namespace Initx\Tests;
 
+use DateTime;
 use Initx\Driver\FilesystemQueue;
 use Initx\Exception\IllegalStateException;
+use Initx\Exception\NoSuchElementException;
 use Initx\Tests\Double\EnvelopeMother;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -89,5 +91,54 @@ class FilesystemQueueTest extends TestCase
 
         // assert
         $this->assertFileNotExists($this->path);
+    }
+
+    /**
+     * @test
+     */
+    public function removeOk(): void
+    {
+        // arrange
+        $envelope = EnvelopeMother::any();
+        $queue = new FilesystemQueue($this->path);
+        $queue->add($envelope);
+
+        // act
+        $actual = $queue->remove();
+
+        // assert
+        $this->assertSame($envelope->getTitle(), $actual->getTitle());
+        $this->assertSame($envelope->getPayload(), $actual->getPayload());
+        $this->assertSame(
+            $envelope->getTimestamp()->format(DateTime::ATOM),
+            $actual->getTimestamp()->format(DateTime::ATOM)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function removeThrowsEmptyQueueException(): void
+    {
+        // arrange
+        touch($this->path);
+        $queue = new FilesystemQueue($this->path);
+        $this->expectException(NoSuchElementException::class);
+
+        // act
+        $queue->remove();
+    }
+
+    /**
+     * @test
+     */
+    public function removeThrowsIllegalStateWhenFileNotExists(): void
+    {
+        // arrange
+        $queue = new FilesystemQueue($this->path);
+        $this->expectException(IllegalStateException::class);
+
+        // act
+        $queue->remove();
     }
 }

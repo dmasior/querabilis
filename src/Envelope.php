@@ -2,7 +2,7 @@
 
 namespace Initx;
 
-use DateTimeImmutable;
+use DateTime;
 use DateTimeInterface;
 
 final class Envelope
@@ -25,7 +25,7 @@ final class Envelope
     public function __construct(string $payload, ?string $title = null, ?DateTimeInterface $timestamp = null)
     {
         $this->title = $title ?: bin2hex(random_bytes(7));
-        $this->timestamp = $timestamp ?: new DateTimeImmutable();
+        $this->timestamp = $timestamp ?: new DateTime();
         $this->payload = $payload;
     }
 

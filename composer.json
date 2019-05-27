@@ -22,7 +22,8 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^7.2",
-    "jms/serializer": "^3.0"
+    "jms/serializer": "^3.0",
+    "symfony/yaml": "^4.2"
   },
   "scripts": {
     "test": [

@@ -25,7 +25,9 @@ final class FilesystemQueue implements Queue
     public function __construct(string $path, SerializerInterface $serializer = null)
     {
         if (!$serializer) {
-            $serializer = SerializerBuilder::create()->build();
+            $serializer = SerializerBuilder::create()
+                ->addMetadataDir(__DIR__ . '/../../config/jms', 'Initx')
+                ->build();
         }
         $this->serializer = $serializer;
         $this->path = $path;
@@ -58,10 +60,11 @@ final class FilesystemQueue implements Queue
 
     private function write(Envelope $envelope): bool
     {
+        $content = $this->serializer->serialize($envelope, 'json');
         try {
             $result = (bool)file_put_contents(
                 $this->path,
-                $this->serializer->serialize($envelope, 'json'),
+                $content,
                 FILE_APPEND
             );
         } catch (Throwable $exception) {
@@ -75,21 +78,64 @@ final class FilesystemQueue implements Queue
      * Remove and return head of queue, otherwise throwing exception.
      *
      * @return Envelope
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException | IllegalStateException
      */
     public function remove(): Envelope
     {
-        // TODO: Implement remove() method.
+        if (!$envelope = $this->poll()) {
+            throw new NoSuchElementException('Queue empty');
+        }
+
+        return $envelope;
+    }
+
+    private function removeFirstLine(): ?string
+    {
+        if (!file_exists($this->path)) {
+            throw new IllegalStateException("File $this->path not exists");
+        }
+        $firstLine = null;
+        if ($handle = fopen($this->path, 'cb+')) {
+            if (!flock($handle, LOCK_EX)) {
+                fclose($handle);
+            }
+            $offset = 0;
+            $len = filesize($this->path);
+            while (($line = fgets($handle, 4096)) !== false) {
+                if (!$firstLine) {
+                    $firstLine = $line;
+                    $offset = strlen($firstLine);
+                    continue;
+                }
+                $pos = ftell($handle);
+                fseek($handle, $pos - strlen($line) - $offset);
+                fwrite($handle, $line);
+                fseek($handle, $pos);
+            }
+            fflush($handle);
+            ftruncate($handle, $len - $offset);
+            flock($handle, LOCK_UN);
+            fclose($handle);
+        }
+
+        return $firstLine;
     }
 
     /**
      * Remove and return head of queue, otherwise returning null.
      *
      * @return Envelope | null
+     * @throws IllegalStateException
      */
     public function poll(): ?Envelope
     {
-        // TODO: Implement poll() method.
+        $firstLine = $this->removeFirstLine();
+
+        if (!$firstLine) {
+            return null;
+        }
+
+        return $this->serializer->deserialize($firstLine, Envelope::class, 'json');
     }
 
     /**
