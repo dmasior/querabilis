@@ -139,4 +139,74 @@ class FilesystemQueueTest extends TestCase
         // act
         $queue->remove();
     }
+
+    /**
+     * @test
+     */
+    public function elementOk(): void
+    {
+        // arrange
+        $one = EnvelopeMother::any();
+        $queue = new FilesystemQueue($this->path);
+        $queue->add($one);
+
+        // act
+        $actualOne = $queue->element();
+        $actualTwo = $queue->element();
+
+        // assert
+        $this->assertEquals($actualOne, $one);
+        $this->assertEquals($actualTwo, $one);
+    }
+
+    /**
+     * @test
+     */
+    public function peekOk(): void
+    {
+        // arrange
+        $one = EnvelopeMother::any();
+        $queue = new FilesystemQueue($this->path);
+        $queue->add($one);
+
+        // act
+        $actualOne = $queue->peek();
+        $actualTwo = $queue->peek();
+
+        // assert
+        $this->assertEquals($actualOne, $one);
+        $this->assertEquals($actualTwo, $one);
+    }
+
+    /**
+     * @test
+     */
+    public function peekNull(): void
+    {
+        // arrange
+        touch($this->path);
+        $queue = new FilesystemQueue($this->path);
+
+        // act
+        $actualOne = $queue->peek();
+        $actualTwo = $queue->peek();
+
+        // assert
+        $this->assertNull($actualOne);
+        $this->assertNull($actualTwo);
+    }
+
+    /**
+     * @test
+     */
+    public function elementThrowsQueueEmpty(): void
+    {
+        // arrange
+        touch($this->path);
+        $queue = new FilesystemQueue($this->path);
+        $this->expectException(NoSuchElementException::class);
+
+        // act
+        $queue->element();
+    }
 }

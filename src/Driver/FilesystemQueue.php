@@ -123,6 +123,17 @@ final class FilesystemQueue implements Queue
         return $firstLine;
     }
 
+    private function readFirstLine(): ?string
+    {
+        if (!file_exists($this->path)) {
+            throw new IllegalStateException("File $this->path not exists");
+        }
+
+        $firstLine = fgets(fopen($this->path, 'rb'));
+
+        return $firstLine ?: null;
+    }
+
     /**
      * Remove and return head of queue, otherwise returning null.
      *
@@ -144,20 +155,31 @@ final class FilesystemQueue implements Queue
      * Return but do not remove head of queue, otherwise throwing exception.
      *
      * @return Envelope
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException | IllegalStateException
      */
     public function element(): Envelope
     {
-        // TODO: Implement element() method.
+        if (!$envelope = $this->peek()) {
+            throw new NoSuchElementException('Queue empty');
+        }
+
+        return $envelope;
     }
 
     /**
      * Return but do not remove head of queue, otherwise returning null.
      *
      * @return Envelope | null
+     * @throws IllegalStateException
      */
     public function peek(): ?Envelope
     {
-        // TODO: Implement peek() method.
+        $firstLine = $this->readFirstLine();
+
+        if (!$firstLine) {
+            return null;
+        }
+
+        return $this->serializer->deserialize($firstLine, Envelope::class, 'json');
     }
 }
