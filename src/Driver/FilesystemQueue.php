@@ -62,7 +62,7 @@ final class FilesystemQueue implements Queue
 
     private function write(Envelope $envelope): bool
     {
-        $content = $this->serializer->serialize($envelope, 'json') . PHP_EOL;
+        $content = $this->serializer->serialize($envelope, 'json').PHP_EOL;
         try {
             $result = (bool)file_put_contents(
                 $this->path,
