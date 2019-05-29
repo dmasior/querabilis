@@ -34,7 +34,7 @@
       "vendor/bin/codecept run"
     ],
     "test-coverage": [
-      "vendor/bin/codecept run --coverage-text --coverage-xml=coverage.xml"
+      "vendor/bin/codecept run --coverage-text --coverage-html --coverage-xml=coverage.xml"
     ]
   },
   "require-dev": {
