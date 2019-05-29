@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Initx\Tests;
+namespace Tests\Integration\Driver;
 
 use Initx\Driver\FilesystemQueue;
 use Initx\Exception\IllegalStateException;
 use Initx\Exception\NoSuchElementException;
-use Initx\Tests\Double\EnvelopeMother;
-use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use Tests\Double\EnvelopeMother;
+use Tests\IntegrationTester;
 
-class FilesystemQueueTest extends TestCase
+class FilesystemQueueCest
 {
     private const UNREACHABLE_PATH = '/some-unreachable-path-9191';
 
@@ -18,22 +18,19 @@ class FilesystemQueueTest extends TestCase
      */
     private $path;
 
-    public function setUp(): void
+    public function _before(): void
     {
-        $this->path = __DIR__ . '/../_output/' . Uuid::uuid4()->toString();
+        $this->path = codecept_data_dir(Uuid::uuid4()->toString());
     }
 
-    public function tearDown(): void
+    public function _after(): void
     {
         if (file_exists($this->path)) {
             unlink($this->path);
         }
     }
 
-    /**
-     * @test
-     */
-    public function addOk(): void
+    public function addOk(IntegrationTester $I): void
     {
         // arrange
         $envelope = EnvelopeMother::any();
@@ -43,27 +40,22 @@ class FilesystemQueueTest extends TestCase
         $queue->add($envelope);
 
         // assert
-        $this->assertFileExists($this->path);
+        $I->assertFileExists($this->path);
     }
 
-    /**
-     * @test
-     */
-    public function addThrows(): void
+    public function addThrows(IntegrationTester $I): void
     {
         // arrange
         $envelope = EnvelopeMother::any();
         $queue = new FilesystemQueue(self::UNREACHABLE_PATH);
-        $this->expectException(IllegalStateException::class);
 
         // act
-        $queue->add($envelope);
+        $I->expectException(IllegalStateException::class, function () use ($queue, $envelope) {
+            $queue->add($envelope);
+        });
     }
 
-    /**
-     * @test
-     */
-    public function offerOk(): void
+    public function offerOk(IntegrationTester $I): void
     {
         // arrange
         $envelope = EnvelopeMother::any();
@@ -73,13 +65,10 @@ class FilesystemQueueTest extends TestCase
         $queue->offer($envelope);
 
         // assert
-        $this->assertFileExists($this->path);
+        $I->assertFileExists($this->path);
     }
 
-    /**
-     * @test
-     */
-    public function offerFail(): void
+    public function offerFail(IntegrationTester $I): void
     {
         // arrange
         $envelope = EnvelopeMother::any();
@@ -89,13 +78,10 @@ class FilesystemQueueTest extends TestCase
         $queue->offer($envelope);
 
         // assert
-        $this->assertFileNotExists($this->path);
+        $I->assertFileNotExists($this->path);
     }
 
-    /**
-     * @test
-     */
-    public function removeOk(): void
+    public function removeOk(IntegrationTester $I): void
     {
         // arrange
         $one = EnvelopeMother::any();
@@ -109,41 +95,34 @@ class FilesystemQueueTest extends TestCase
         $actualTwo = $queue->remove();
 
         // assert
-        $this->assertEquals($actualOne, $one);
-        $this->assertEquals($actualTwo, $two);
+        $I->assertEquals($actualOne, $one);
+        $I->assertEquals($actualTwo, $two);
     }
 
-    /**
-     * @test
-     */
-    public function removeThrowsEmptyQueueException(): void
+    public function removeThrowsEmptyQueueException(IntegrationTester $I): void
     {
         // arrange
         touch($this->path);
         $queue = new FilesystemQueue($this->path);
-        $this->expectException(NoSuchElementException::class);
 
         // act
-        $queue->remove();
+        $I->expectException(NoSuchElementException::class, function () use ($queue) {
+            $queue->remove();
+        });
     }
 
-    /**
-     * @test
-     */
-    public function removeThrowsIllegalStateWhenFileNotExists(): void
+    public function removeThrowsIllegalStateWhenFileNotExists(IntegrationTester $I): void
     {
         // arrange
         $queue = new FilesystemQueue($this->path);
-        $this->expectException(IllegalStateException::class);
 
         // act
-        $queue->remove();
+        $I->expectException(IllegalStateException::class, function () use ($queue) {
+            $queue->remove();
+        });
     }
 
-    /**
-     * @test
-     */
-    public function elementOk(): void
+    public function elementOk(IntegrationTester $I): void
     {
         // arrange
         $one = EnvelopeMother::any();
@@ -155,14 +134,11 @@ class FilesystemQueueTest extends TestCase
         $actualTwo = $queue->element();
 
         // assert
-        $this->assertEquals($actualOne, $one);
-        $this->assertEquals($actualTwo, $one);
+        $I->assertEquals($actualOne, $one);
+        $I->assertEquals($actualTwo, $one);
     }
 
-    /**
-     * @test
-     */
-    public function peekOk(): void
+    public function peekOk(IntegrationTester $I): void
     {
         // arrange
         $one = EnvelopeMother::any();
@@ -174,14 +150,11 @@ class FilesystemQueueTest extends TestCase
         $actualTwo = $queue->peek();
 
         // assert
-        $this->assertEquals($actualOne, $one);
-        $this->assertEquals($actualTwo, $one);
+        $I->assertEquals($actualOne, $one);
+        $I->assertEquals($actualTwo, $one);
     }
 
-    /**
-     * @test
-     */
-    public function peekNull(): void
+    public function peekNull(IntegrationTester $I): void
     {
         // arrange
         touch($this->path);
@@ -192,21 +165,19 @@ class FilesystemQueueTest extends TestCase
         $actualTwo = $queue->peek();
 
         // assert
-        $this->assertNull($actualOne);
-        $this->assertNull($actualTwo);
+        $I->assertNull($actualOne);
+        $I->assertNull($actualTwo);
     }
 
-    /**
-     * @test
-     */
-    public function elementThrowsQueueEmpty(): void
+    public function elementThrowsQueueEmpty(IntegrationTester $I): void
     {
         // arrange
         touch($this->path);
         $queue = new FilesystemQueue($this->path);
-        $this->expectException(NoSuchElementException::class);
 
         // act
-        $queue->element();
+        $I->expectException(NoSuchElementException::class, function () use ($queue) {
+            $queue->element();
+        });
     }
 }

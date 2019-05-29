@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Initx\Tests\Double;
+namespace Tests\Double;
 
 use Faker\Factory;
 use Initx\Envelope;
