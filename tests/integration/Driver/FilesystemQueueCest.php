@@ -75,10 +75,11 @@ class FilesystemQueueCest
         $queue = new FilesystemQueue(self::UNREACHABLE_PATH);
 
         // act
-        $queue->offer($envelope);
+        $actual = $queue->offer($envelope);
 
         // assert
         $I->assertFileNotExists($this->path);
+        $I->assertFalse($actual);
     }
 
     public function removeOk(IntegrationTester $I): void

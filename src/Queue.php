@@ -17,12 +17,12 @@ interface Queue
     public function add(Envelope $envelope): void;
 
     /**
-     * Inserts an element if possible, otherwise returning null.
+     * Inserts an element if possible, otherwise returning false.
      *
      * @param Envelope $envelope
-     * @return void|null
+     * @return bool
      */
-    public function offer(Envelope $envelope): void;
+    public function offer(Envelope $envelope): bool;
 
     /**
      * Remove and return head of queue, otherwise throwing exception.

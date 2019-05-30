@@ -12,6 +12,8 @@ use Throwable;
 
 final class FilesystemQueue implements Queue
 {
+    use HasFallbackSerializer;
+
     /**
      * @var string
      */
@@ -24,15 +26,9 @@ final class FilesystemQueue implements Queue
 
     public function __construct(string $path, SerializerInterface $serializer = null)
     {
-        if (!$serializer) {
-            $separator = DIRECTORY_SEPARATOR;
-            $metaDir = sprintf('%s%s..%s..%sconfig%sjms', __DIR__, $separator, $separator, $separator, $separator);
-            $serializer = SerializerBuilder::create()
-                ->addMetadataDir($metaDir, 'Initx')
-                ->build();
-        }
         $this->serializer = $serializer;
         $this->path = $path;
+        $this->fallbackSerializer();
     }
 
     /**
@@ -44,7 +40,7 @@ final class FilesystemQueue implements Queue
      */
     public function add(Envelope $envelope): void
     {
-        if (!$this->write($envelope)) {
+        if (!$this->offer($envelope)) {
             throw IllegalStateException::create("Could not write to {$this->path}");
         }
     }
@@ -55,12 +51,7 @@ final class FilesystemQueue implements Queue
      * @param Envelope $envelope
      * @return void
      */
-    public function offer(Envelope $envelope): void
-    {
-        $this->write($envelope);
-    }
-
-    private function write(Envelope $envelope): bool
+    public function offer(Envelope $envelope): bool
     {
         $content = $this->serializer->serialize($envelope, 'json').PHP_EOL;
         try {

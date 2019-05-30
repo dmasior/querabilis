@@ -27,7 +27,8 @@
   "require": {
     "php": "^7.2",
     "jms/serializer": "^3.0",
-    "symfony/yaml": "^4.0"
+    "symfony/yaml": "^4.0",
+    "predis/predis": "^1.1"
   },
   "scripts": {
     "test": [

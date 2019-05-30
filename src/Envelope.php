@@ -21,11 +21,11 @@ final class Envelope
      */
     private $timestamp;
 
-    public function __construct(string $payload, ?string $title = null, ?DateTime $timestamp = null)
+    public function __construct(string $payload, string $title, ?DateTime $timestamp = null)
     {
-        $this->title = $title ?: bin2hex(random_bytes(7));
-        $this->timestamp = $timestamp ?: new DateTime();
         $this->payload = $payload;
+        $this->title = $title;
+        $this->timestamp = $timestamp ?: new DateTime();
     }
 
     /**
