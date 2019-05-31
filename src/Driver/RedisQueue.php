@@ -8,6 +8,8 @@ use Initx\Exception\NoSuchElementException;
 use Initx\Queue;
 use JMS\Serializer\SerializerInterface;
 use Predis\Client;
+use Predis\ClientInterface;
+use Throwable;
 
 class RedisQueue implements Queue
 {
@@ -24,21 +26,18 @@ class RedisQueue implements Queue
     private $serializer;
 
     /**
-     * @param mixed $parameters Connection parameters. Docs: https://github.com/nrk/predis/wiki/Connection-Parameters
-     * @param mixed $options Options to configure. Docs: https://github.com/nrk/predis/wiki/Client-Options
-     * @param SerializerInterface|null $serializer
+     * @var string
      */
-    public function __construct($parameters = null, $options = null,  SerializerInterface $serializer = null)
+    private $queue;
+
+    public function __construct(ClientInterface $client, string $queue, ?SerializerInterface $serializer = null)
     {
-        $this->client = new Client($parameters, $options);
-        $this->client->connect();
+        $this->client = $client;
         $this->serializer = $serializer;
+        $this->queue = $queue;
         $this->fallbackSerializer();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function add(Envelope $envelope): void
     {
         if (!$this->offer($envelope)) {
@@ -46,46 +45,47 @@ class RedisQueue implements Queue
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function offer(Envelope $envelope): bool
     {
         $serialized = $this->serializer->serialize($envelope, 'json');
 
         return (bool)$this->client->rpush(
-            $envelope->getTitle(),
+            $this->queue,
             [$serialized]
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function remove(): Envelope
     {
-        // TODO: Implement remove() method.
+        $element = $this->poll();
+
+        if (!$element) {
+            throw new NoSuchElementException('Queue empty');
+        }
+
+        return $element;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function poll(): ?Envelope
     {
-        // TODO: Implement poll() method.
+        try {
+            $serialized = $this->client->lpop($this->queue);
+        } catch (Throwable $e) {
+            throw new IllegalStateException("Predis connection error", 0, $e);
+        }
+
+        if (empty($serialized)) {
+            return null;
+        }
+
+        return $this->serializer->deserialize($serialized, Envelope::class, 'json');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function element(): Envelope
     {
         // TODO: Implement element() method.
     }
 
-    /**
-     * @inheritDoc
-     */
     public function peek(): ?Envelope
     {
         // TODO: Implement peek() method.

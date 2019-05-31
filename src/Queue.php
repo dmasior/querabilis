@@ -28,7 +28,7 @@ interface Queue
      * Remove and return head of queue, otherwise throwing exception.
      *
      * @return Envelope
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException | IllegalStateException
      */
     public function remove(): Envelope;
 
@@ -36,6 +36,7 @@ interface Queue
      * Remove and return head of queue, otherwise returning null.
      *
      * @return Envelope | null
+     * @throws IllegalStateException (Driver error)
      */
     public function poll(): ?Envelope;
 

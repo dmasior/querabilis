@@ -6,7 +6,6 @@ use Initx\Envelope;
 use Initx\Exception\IllegalStateException;
 use Initx\Exception\NoSuchElementException;
 use Initx\Queue;
-use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use Throwable;
 
@@ -31,13 +30,6 @@ final class FilesystemQueue implements Queue
         $this->fallbackSerializer();
     }
 
-    /**
-     * Inserts an element if possible, otherwise throwing exception.
-     *
-     * @param Envelope $envelope
-     * @return void
-     * @throws IllegalStateException
-     */
     public function add(Envelope $envelope): void
     {
         if (!$this->offer($envelope)) {
@@ -45,12 +37,6 @@ final class FilesystemQueue implements Queue
         }
     }
 
-    /**
-     * Inserts an element if possible.
-     *
-     * @param Envelope $envelope
-     * @return void
-     */
     public function offer(Envelope $envelope): bool
     {
         $content = $this->serializer->serialize($envelope, 'json').PHP_EOL;
@@ -67,12 +53,6 @@ final class FilesystemQueue implements Queue
         return $result;
     }
 
-    /**
-     * Remove and return head of queue, otherwise throwing exception.
-     *
-     * @return Envelope
-     * @throws NoSuchElementException | IllegalStateException
-     */
     public function remove(): Envelope
     {
         if (!$envelope = $this->poll()) {
@@ -125,12 +105,6 @@ final class FilesystemQueue implements Queue
         return $firstLine ?: null;
     }
 
-    /**
-     * Remove and return head of queue, otherwise returning null.
-     *
-     * @return Envelope | null
-     * @throws IllegalStateException
-     */
     public function poll(): ?Envelope
     {
         $firstLine = $this->removeFirstLine();
@@ -142,12 +116,6 @@ final class FilesystemQueue implements Queue
         return $this->serializer->deserialize($firstLine, Envelope::class, 'json');
     }
 
-    /**
-     * Return but do not remove head of queue, otherwise throwing exception.
-     *
-     * @return Envelope
-     * @throws NoSuchElementException | IllegalStateException
-     */
     public function element(): Envelope
     {
         if (!$envelope = $this->peek()) {
@@ -157,12 +125,6 @@ final class FilesystemQueue implements Queue
         return $envelope;
     }
 
-    /**
-     * Return but do not remove head of queue, otherwise returning null.
-     *
-     * @return Envelope | null
-     * @throws IllegalStateException
-     */
     public function peek(): ?Envelope
     {
         $firstLine = $this->readFirstLine();
