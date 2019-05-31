@@ -2,6 +2,9 @@ language: php
 
 sudo: false
 
+services:
+    - redis-server
+
 cache:
     directories:
         - $HOME/.composer/cache/files
