@@ -35,3 +35,4 @@ $envelope->getPayload(); // "Payload goes here"
 | Examine 	| element()        	| peek()                	|
 #### Currently supported drivers
 - Filesystem
+- Redis (Predis)
