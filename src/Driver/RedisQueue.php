@@ -28,13 +28,13 @@ class RedisQueue implements Queue
     /**
      * @var string
      */
-    private $queue;
+    private $queueName;
 
-    public function __construct(ClientInterface $client, string $queue, ?SerializerInterface $serializer = null)
+    public function __construct(ClientInterface $client, string $queueName, ?SerializerInterface $serializer = null)
     {
         $this->client = $client;
         $this->serializer = $serializer;
-        $this->queue = $queue;
+        $this->queueName = $queueName;
         $this->fallbackSerializer();
     }
 
@@ -50,7 +50,7 @@ class RedisQueue implements Queue
         $serialized = $this->serializer->serialize($envelope, 'json');
 
         return (bool)$this->client->rpush(
-            $this->queue,
+            $this->queueName,
             [$serialized]
         );
     }
@@ -69,7 +69,7 @@ class RedisQueue implements Queue
     public function poll(): ?Envelope
     {
         try {
-            $serialized = $this->client->lpop($this->queue);
+            $serialized = $this->client->lpop($this->queueName);
         } catch (Throwable $e) {
             throw new IllegalStateException("Predis connection error", 0, $e);
         }
@@ -83,11 +83,23 @@ class RedisQueue implements Queue
 
     public function element(): Envelope
     {
-        // TODO: Implement element() method.
+        $element = $this->peek();
+
+        if (!$element) {
+            throw new NoSuchElementException('Queue empty');
+        }
+
+        return $element;
     }
 
     public function peek(): ?Envelope
     {
-        // TODO: Implement peek() method.
+        $serialized = $this->client->lrange($this->queueName, 0, 0)[0];
+
+        if (empty($serialized)) {
+            return null;
+        }
+
+        return $this->serializer->deserialize($serialized, Envelope::class, 'json');
     }
 }
