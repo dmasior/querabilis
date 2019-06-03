@@ -40,19 +40,18 @@ final class FilesystemQueue implements Queue
     public function offer(Envelope $envelope): bool
     {
         $content = $this->serializer->serialize($envelope, 'json').PHP_EOL;
-        try {
-            $result = (bool)file_put_contents(
-                $this->path,
-                $content,
-                FILE_APPEND
-            );
-        } catch (Throwable $exception) {
-            // There is a contract need to not throw exceptions from offer(e) method,
-            // but return false on failure.
-            $result = false;
+
+        $result = (bool)@file_put_contents(
+            $this->path,
+            $content,
+            FILE_APPEND
+        );
+
+        if (!$result) {
+            throw new IllegalStateException("Could not write to file: {$this->path}");
         }
 
-        return $result;
+        return true;
     }
 
     public function remove(): Envelope
