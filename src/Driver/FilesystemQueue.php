@@ -7,7 +7,6 @@ use Initx\Exception\IllegalStateException;
 use Initx\Exception\NoSuchElementException;
 use Initx\Queue;
 use JMS\Serializer\SerializerInterface;
-use Throwable;
 
 final class FilesystemQueue implements Queue
 {
@@ -33,7 +32,7 @@ final class FilesystemQueue implements Queue
     public function add(Envelope $envelope): void
     {
         if (!$this->offer($envelope)) {
-            throw new IllegalStateException("Could not write to file: {$this->path}");
+            $this->throwItIsNotWriteable();
         }
     }
 
@@ -48,7 +47,7 @@ final class FilesystemQueue implements Queue
         );
 
         if (!$result) {
-            throw new IllegalStateException("Could not write to file: {$this->path}");
+            $this->throwItIsNotWriteable();
         }
 
         return true;
@@ -101,7 +100,7 @@ final class FilesystemQueue implements Queue
     private function removeFirstLine(): ?string
     {
         if (!file_exists($this->path)) {
-            throw new IllegalStateException("File $this->path not exists");
+            $this->throwItNotExists();
         }
         $firstLine = null;
         if ($handle = fopen($this->path, 'cb+')) {
@@ -133,11 +132,21 @@ final class FilesystemQueue implements Queue
     private function readFirstLine(): ?string
     {
         if (!file_exists($this->path)) {
-            throw new IllegalStateException("File $this->path not exists");
+            $this->throwItNotExists();
         }
 
         $firstLine = fgets(fopen($this->path, 'rb'));
 
         return $firstLine ?: null;
+    }
+
+    private function throwItIsNotWriteable(): void
+    {
+        throw new IllegalStateException("Could not write to file: {$this->path}");
+    }
+
+    private function throwItNotExists(): void
+    {
+        throw new IllegalStateException("File $this->path not exists");
     }
 }
