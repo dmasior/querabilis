@@ -60,7 +60,7 @@ class RedisQueue implements Queue
         $element = $this->poll();
 
         if (!$element) {
-            throw new NoSuchElementException('Queue empty');
+            throw new NoSuchElementException();
         }
 
         return $element;
@@ -86,7 +86,7 @@ class RedisQueue implements Queue
         $element = $this->peek();
 
         if (!$element) {
-            throw new NoSuchElementException('Queue empty');
+            throw new NoSuchElementException();
         }
 
         return $element;

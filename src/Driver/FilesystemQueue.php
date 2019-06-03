@@ -33,7 +33,7 @@ final class FilesystemQueue implements Queue
     public function add(Envelope $envelope): void
     {
         if (!$this->offer($envelope)) {
-            throw IllegalStateException::create("Could not write to {$this->path}");
+            throw new IllegalStateException("Could not write to file: {$this->path}");
         }
     }
 
@@ -47,6 +47,8 @@ final class FilesystemQueue implements Queue
                 FILE_APPEND
             );
         } catch (Throwable $exception) {
+            // There is a contract need to not throw exceptions from offer(e) method,
+            // but return false on failure.
             $result = false;
         }
 
@@ -55,11 +57,46 @@ final class FilesystemQueue implements Queue
 
     public function remove(): Envelope
     {
-        if (!$envelope = $this->poll()) {
-            throw new NoSuchElementException('Queue empty');
+        $envelope = $this->poll();
+
+        if (!$envelope) {
+            throw new NoSuchElementException();
         }
 
         return $envelope;
+    }
+
+    public function poll(): ?Envelope
+    {
+        $firstLine = $this->removeFirstLine();
+
+        if (!$firstLine) {
+            return null;
+        }
+
+        return $this->serializer->deserialize($firstLine, Envelope::class, 'json');
+    }
+
+    public function element(): Envelope
+    {
+        $envelope = $this->peek();
+
+        if (!$envelope) {
+            throw new NoSuchElementException();
+        }
+
+        return $envelope;
+    }
+
+    public function peek(): ?Envelope
+    {
+        $firstLine = $this->readFirstLine();
+
+        if (!$firstLine) {
+            return null;
+        }
+
+        return $this->serializer->deserialize($firstLine, Envelope::class, 'json');
     }
 
     private function removeFirstLine(): ?string
@@ -103,36 +140,5 @@ final class FilesystemQueue implements Queue
         $firstLine = fgets(fopen($this->path, 'rb'));
 
         return $firstLine ?: null;
-    }
-
-    public function poll(): ?Envelope
-    {
-        $firstLine = $this->removeFirstLine();
-
-        if (!$firstLine) {
-            return null;
-        }
-
-        return $this->serializer->deserialize($firstLine, Envelope::class, 'json');
-    }
-
-    public function element(): Envelope
-    {
-        if (!$envelope = $this->peek()) {
-            throw new NoSuchElementException('Queue empty');
-        }
-
-        return $envelope;
-    }
-
-    public function peek(): ?Envelope
-    {
-        $firstLine = $this->readFirstLine();
-
-        if (!$firstLine) {
-            return null;
-        }
-
-        return $this->serializer->deserialize($firstLine, Envelope::class, 'json');
     }
 }
