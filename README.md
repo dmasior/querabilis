@@ -44,7 +44,6 @@ $envelope->getPayload(); // "Payload goes here"
 use Predis\Client;
 use Initx\Driver\RedisQueue;
 
-// AWS SQS Client instance
 $client = new Client(['host' => '127.0.0.1']);
 $queue = new RedisQueue($client, 'queueName');
 ```
@@ -53,7 +52,6 @@ $queue = new RedisQueue($client, 'queueName');
 use Aws\Sqs\SqsClient;
 use Initx\Driver\SqsQueue;
 
-// SQS Client instance
 $client = new SqsClient(your_sqs_client_config);
 $queue = new SqsQueue($client, 'queueName');
 ```
