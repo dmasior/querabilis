@@ -6,7 +6,7 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 
 /**
- * @property SerializerInterface|null $serializer
+ * @property SerializerInterface $serializer
  */
 trait HasFallbackSerializer
 {

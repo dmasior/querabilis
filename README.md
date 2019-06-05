@@ -36,3 +36,4 @@ $envelope->getPayload(); // "Payload goes here"
 #### Currently supported drivers
 - Filesystem
 - Redis (Predis)
+- Amazon SQS

@@ -17,7 +17,8 @@
   "autoload-dev": {
     "psr-4": {
       "Initx\\Tests\\Unit\\": "tests/unit/",
-      "Initx\\Tests\\Integration\\": "tests/integration/"
+      "Initx\\Tests\\Integration\\": "tests/integration/",
+      "Initx\\Tests\\Contract\\": "tests/contract/"
     },
     "classmap": [
       "tests/_support"
@@ -28,20 +29,22 @@
     "php": "^7.2",
     "jms/serializer": "^3.0",
     "symfony/yaml": "^4.0",
-    "predis/predis": "^1.1"
+    "predis/predis": "^1.1",
+    "aws/aws-sdk-php": "^3.99"
   },
   "scripts": {
     "test": [
-      "vendor/bin/codecept run"
+      "vendor/bin/codecept run unit,integration"
     ],
     "test-coverage": [
-      "vendor/bin/codecept run --coverage-text --coverage-html --coverage-xml=coverage.xml"
+      "vendor/bin/codecept run unit,integration --coverage-text --coverage-html --coverage-xml=coverage.xml"
     ]
   },
   "require-dev": {
     "phpunit/phpunit": "^8.1",
     "fzaninotto/faker": "^1.8",
     "ramsey/uuid": "^3.8",
-    "codeception/codeception": "^3.0"
+    "codeception/codeception": "^3.0",
+    "mockery/mockery": "^1.2"
   }
 }
