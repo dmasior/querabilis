@@ -27,18 +27,18 @@ $envelope = $queue->remove();
 
 $envelope->getPayload(); // "Payload goes here"
 ```
-#### Summary of methods
+### Summary of methods
 |         	| Throws exception 	| Returns special value 	|
 |---------	|------------------	|-----------------------	|
 | Insert  	| add(e)           	| offer(e)              	|
 | Remove  	| remove()         	| poll()                	|
 | Examine 	| element()        	| peek()                	|
-#### Currently supported drivers
+### Currently supported drivers
 - Filesystem
 - Redis (Predis)
 - Amazon SQS
 
-#### Examples
+### Examples
 ##### Redis (Predis) driver
 ```php
 use Predis\Client;
