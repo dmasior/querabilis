@@ -38,7 +38,7 @@ $envelope->getPayload(); // "Payload goes here"
 - Redis (Predis)
 - Amazon SQS
 
-### Examples
+### More examples
 ##### Redis (Predis) driver
 ```php
 use Predis\Client;
