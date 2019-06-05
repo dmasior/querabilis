@@ -37,3 +37,23 @@ $envelope->getPayload(); // "Payload goes here"
 - Filesystem
 - Redis (Predis)
 - Amazon SQS
+
+#### Examples
+##### Redis (Predis) driver
+```php
+use Predis\Client;
+use Initx\Driver\RedisQueue;
+
+// AWS SQS Client instance
+$client = new Client(['host' => '127.0.0.1']);
+$queue = new RedisQueue($client, 'queueName');
+```
+##### AWS SQS driver
+```php
+use Aws\Sqs\SqsClient;
+use Initx\Driver\SqsQueue;
+
+// SQS Client instance
+$client = new SqsClient(your_sqs_client_config);
+$queue = new SqsQueue($client, 'queueName');
+```
