@@ -5,19 +5,18 @@ namespace Initx\Driver;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 
-/**
- * @property SerializerInterface $serializer
- */
 trait HasFallbackSerializer
 {
-    public function fallbackSerializer()
+    public function fallbackSerializer(?SerializerInterface $serializer = null): SerializerInterface
     {
-        if (!$this->serializer) {
+        if (!$serializer) {
             $separator = DIRECTORY_SEPARATOR;
             $metaDir = sprintf('%s%s..%s..%sconfig%sjms', __DIR__, $separator, $separator, $separator, $separator);
-            $this->serializer = SerializerBuilder::create()
+            $serializer = SerializerBuilder::create()
                 ->addMetadataDir($metaDir, 'Initx')
                 ->build();
         }
+
+        return $serializer;
     }
 }

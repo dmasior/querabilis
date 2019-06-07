@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="KTW">
+    <exclude-pattern>*/tests/_output/*</exclude-pattern>
+    <exclude-pattern>*/tests/_support/_generated/*</exclude-pattern>
+    <exclude-pattern>*/tests/_data/*</exclude-pattern>
+    <arg name="colors"/>
+
+    <rule ref="PSR1"/>
+    <rule ref="PSR2"/>
+
+    <rule ref="Squiz.PHP.CommentedOutCode"/>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+    <rule ref="Generic.PHP.SAPIUsage"/>
+    <rule ref="PEAR.Commenting.InlineComment"/>
+    <!-- Disallow else if in favor of elseif -->
+    <rule ref="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed">
+        <type>error</type>
+    </rule>
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <exclude-pattern>tests/**Cest.php</exclude-pattern>
+    </rule>
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property
+                    name="forbiddenFunctions"
+                    type="array"
+                    value="
+                    chop => rtrim,
+                    close => closedir,
+                    compact => null,
+                    delete => unset,
+                    doubleval => floatval,
+                    extract => null,
+                    fputs => fwrite,
+                    ini_alter => ini_set,
+                    is_double => is_float,
+                    is_integer => is_int,
+                    is_long => is_int,
+                    is_null => null,
+                    is_real => is_float,
+                    is_writeable => is_writable,
+                    join => implode,
+                    key_exists => array_key_exists,
+                    pos => current,
+                    settype => null,
+                    show_source => highlight_file,
+                    sizeof => count,
+                    strchr => strstr
+                "/>
+        </properties>
+    </rule>
+
+    <!-- Forbid useless inline string concatenation -->
+    <rule ref="Generic.Strings.UnnecessaryStringConcat">
+        <!-- But multiline is useful for readability -->
+        <properties>
+            <property name="allowMultiline" value="true"/>
+        </properties>
+    </rule>
+</ruleset>

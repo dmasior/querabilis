@@ -36,6 +36,9 @@
     "test": [
       "vendor/bin/codecept run unit,integration"
     ],
+    "check-quality": [
+      "vendor/bin/phpcs --standard=ruleset.xml src/ tests/ && vendor/bin/psalm"
+    ],
     "test-coverage": [
       "vendor/bin/codecept run unit,integration --coverage-text --coverage-html --coverage-xml=coverage.xml"
     ]
@@ -45,6 +48,8 @@
     "fzaninotto/faker": "^1.8",
     "ramsey/uuid": "^3.8",
     "codeception/codeception": "^3.0",
-    "mockery/mockery": "^1.2"
+    "mockery/mockery": "^1.2",
+    "squizlabs/php_codesniffer": "*",
+    "vimeo/psalm": "^3.4"
   }
 }

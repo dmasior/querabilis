@@ -4,7 +4,6 @@ namespace Tests;
 
 use Tests\_generated\IntegrationTesterActions;
 
-
 /**
  * Inherited Methods
  * @method void wantToTest($text)

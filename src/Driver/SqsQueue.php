@@ -28,7 +28,7 @@ final class SqsQueue implements Queue
     /**
      * @var string
      */
-    private $queueUrl;
+    private $queueUrl = '';
 
     /**
      * @var SerializerInterface
@@ -39,8 +39,7 @@ final class SqsQueue implements Queue
     {
         $this->client = $client;
         $this->queueName = $queueName;
-        $this->serializer = $serializer;
-        $this->fallbackSerializer();
+        $this->serializer = $this->fallbackSerializer($serializer);
     }
 
     public function add(Envelope $envelope): void
@@ -65,9 +64,7 @@ final class SqsQueue implements Queue
             $args['MessageDeduplicationId'] = Uuid::uuid4()->toString();
         }
 
-        $result = $this->client->sendMessage($args);
-
-        return $result ? true : false;
+        return (bool)$this->client->sendMessage($args);
     }
 
     public function remove(): Envelope
@@ -132,14 +129,13 @@ final class SqsQueue implements Queue
 
     private function resolveQueueUrl(): void
     {
-        if ($this->queueUrl === null) {
+        if (empty($this->queueUrl)) {
             $result = $this->client->getQueueUrl(['QueueName' => $this->queueName]);
-
-            if (!$result || !$this->queueUrl = $result->get('QueueUrl')) {
+            $this->queueUrl = $result->get('QueueUrl');
+            if (empty($this->queueUrl)) {
                 throw new IllegalStateException("Could not resolve queue url from queue name '{$this->queueName}'");
             }
         }
-
     }
 
     private function queryForOneMessage(): Result

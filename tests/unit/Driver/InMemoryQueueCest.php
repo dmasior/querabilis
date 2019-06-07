@@ -14,7 +14,7 @@ class InMemoryQueueCest
      * @example { "method": "add" }
      * @example { "method": "offer" }
      */
-    public function AddAndOffer(UnitTester $I, Example $example)
+    public function addAndOffer(UnitTester $I, Example $example)
     {
         $method = $example['method'];
         $envelopeOne = EnvelopeMother::any();

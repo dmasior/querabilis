@@ -7,7 +7,6 @@ use Initx\Exception\IllegalStateException;
 use Initx\Exception\NoSuchElementException;
 use Initx\Queue;
 use JMS\Serializer\SerializerInterface;
-use Predis\Client;
 use Predis\ClientInterface;
 use Throwable;
 
@@ -16,7 +15,7 @@ final class RedisQueue implements Queue
     use HasFallbackSerializer;
 
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
@@ -33,9 +32,8 @@ final class RedisQueue implements Queue
     public function __construct(ClientInterface $client, string $queueName, ?SerializerInterface $serializer = null)
     {
         $this->client = $client;
-        $this->serializer = $serializer;
         $this->queueName = $queueName;
-        $this->fallbackSerializer();
+        $this->serializer = $this->fallbackSerializer($serializer);
     }
 
     public function add(Envelope $envelope): void

@@ -8,6 +8,9 @@ use Initx\Queue;
 
 final class InMemoryQueue implements Queue
 {
+    /**
+     * @var Envelope[]
+     */
     private $items = [];
 
     public function add(Envelope $envelope): void

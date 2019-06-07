@@ -22,11 +22,10 @@ final class FilesystemQueue implements Queue
      */
     private $serializer;
 
-    public function __construct(string $path, SerializerInterface $serializer = null)
+    public function __construct(string $path, ?SerializerInterface $serializer = null)
     {
-        $this->serializer = $serializer;
+        $this->serializer = $this->fallbackSerializer($serializer);
         $this->path = $path;
-        $this->fallbackSerializer();
     }
 
     public function add(Envelope $envelope): void
