@@ -37,6 +37,7 @@ $envelope->getPayload(); // "Payload goes here"
 - Filesystem
 - Redis (Predis)
 - Amazon SQS
+- In memory
 
 ### More examples
 ##### Redis (Predis) driver
