@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="KTW">
+<ruleset name="QRB">
     <exclude-pattern>*/tests/_output/*</exclude-pattern>
     <exclude-pattern>*/tests/_support/_generated/*</exclude-pattern>
     <exclude-pattern>*/tests/_data/*</exclude-pattern>
