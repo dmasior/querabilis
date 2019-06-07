@@ -11,7 +11,7 @@ use Initx\Queue;
 use JMS\Serializer\SerializerInterface;
 use Ramsey\Uuid\Uuid;
 
-class SqsQueue implements Queue
+final class SqsQueue implements Queue
 {
     use HasFallbackSerializer;
 

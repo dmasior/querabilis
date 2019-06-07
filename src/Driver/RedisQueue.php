@@ -11,7 +11,7 @@ use Predis\Client;
 use Predis\ClientInterface;
 use Throwable;
 
-class RedisQueue implements Queue
+final class RedisQueue implements Queue
 {
     use HasFallbackSerializer;
 
