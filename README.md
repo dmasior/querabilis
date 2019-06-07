@@ -56,3 +56,10 @@ use Initx\Driver\SqsQueue;
 $client = new SqsClient(your_sqs_client_config);
 $queue = new SqsQueue($client, 'queueName');
 ```
+
+##### In memory driver
+```php
+use Initx\Driver\InMemoryQueue;
+
+$queue = new InMemoryQueue();
+```
