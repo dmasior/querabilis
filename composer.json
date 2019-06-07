@@ -1,6 +1,6 @@
 {
   "name": "initx/querabilis",
-  "description": "Simple PHP Queue Library",
+  "description": "Simple PHP Queue",
   "type": "library",
   "license": "MIT",
   "authors": [
