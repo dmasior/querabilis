@@ -13,3 +13,6 @@ coverage:
     enabled: true
     include:
         - src/*
+env:
+    beanstalkd:
+    travis:

@@ -30,7 +30,8 @@
     "jms/serializer": "^3.0",
     "symfony/yaml": "^4.0",
     "predis/predis": "^1.1",
-    "aws/aws-sdk-php": "^3.99"
+    "aws/aws-sdk-php": "^3.99",
+    "pda/pheanstalk": "^4.0"
   },
   "scripts": {
     "test": [

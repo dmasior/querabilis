@@ -20,5 +20,5 @@ install:
     - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
 
 script:
-    - composer test
+    - composer test -- --env travis
     - composer check-quality
