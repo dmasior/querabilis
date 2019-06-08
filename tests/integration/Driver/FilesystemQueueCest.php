@@ -37,10 +37,10 @@ class FilesystemQueueCest
         $queue = new FilesystemQueue($this->path);
 
         // act
-        $queue->add($envelope);
+        $actual = $queue->add($envelope);
 
         // assert
-        $I->assertFileExists($this->path);
+        $I->assertTrue($actual);
     }
 
     public function addThrows(IntegrationTester $I): void

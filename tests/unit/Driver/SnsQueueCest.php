@@ -7,6 +7,7 @@ use Aws\Sqs\SqsClient;
 use Codeception\Example;
 use Initx\Driver\SqsQueue;
 use Initx\Exception\IllegalStateException;
+use Initx\Exception\NoSuchElementException;
 use Mockery;
 use Tests\Double\EnvelopeMother;
 use Tests\UnitTester;
@@ -21,7 +22,9 @@ class SnsQueueCest
         $client->expects('sendMessage')->andReturn(new Result());
         $queue = new SqsQueue($client, 'name');
 
-        $queue->add($envelope);
+        $result = $queue->add($envelope);
+
+        $I->assertTrue($result);
     }
 
     public function addThrows(UnitTester $I)
@@ -68,6 +71,28 @@ class SnsQueueCest
         $I->assertSame('Turner, Cremin and Streich', $element->getTitle());
         $I->assertNotEmpty($element->getPayload());
         $I->assertNotEmpty($element->getTimestamp());
+    }
+
+    /**
+     * @example { "method": "remove" }
+     * @example { "method": "element" }
+     */
+    public function removeAndElementThrows(UnitTester $I, Example $example)
+    {
+        $client = Mockery::mock(SqsClient::class);
+        $client->expects('getQueueUrl')
+            ->once()
+            ->andReturn(new Result(['QueueUrl' => 'some_url']));
+        $client->expects('receiveMessage')
+            ->once()
+            ->andReturn(new Result(['Messages' => []]));
+        $client->expects('deleteMessage')->once();
+        $queue = new SqsQueue($client, 'name.fifo');
+        $method = $example['method'];
+
+        $I->expectException(NoSuchElementException::class, function () use ($queue, $method) {
+            $queue->$method();
+        });
     }
 
     private function messageDouble(): string

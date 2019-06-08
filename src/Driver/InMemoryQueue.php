@@ -13,9 +13,9 @@ final class InMemoryQueue implements Queue
      */
     private $items = [];
 
-    public function add(Envelope $envelope): void
+    public function add(Envelope $envelope): bool
     {
-        $this->offer($envelope);
+        return $this->offer($envelope);
     }
 
     public function offer(Envelope $envelope): bool

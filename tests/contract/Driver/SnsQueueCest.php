@@ -35,8 +35,12 @@ class SnsQueueCest
         $queue = new SqsQueue(SqsClientMother::default(), $this->queueName);
 
         // act
-        $queue->add(EnvelopeMother::any());
-        $queue->add(EnvelopeMother::any());
+        $actualOne = $queue->add(EnvelopeMother::any());
+        $actualTwo = $queue->add(EnvelopeMother::any());
+
+        // assert
+        $I->assertTrue($actualOne);
+        $I->assertTrue($actualTwo);
     }
 
     public function offerTwo(ContractTester $I): void

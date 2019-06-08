@@ -1,5 +1,4 @@
 theme: jekyll-theme-slate
 encoding: UTF-8
-markdown: kramdown
 kramdown:
   input: GFM

@@ -42,11 +42,13 @@ final class SqsQueue implements Queue
         $this->serializer = $this->fallbackSerializer($serializer);
     }
 
-    public function add(Envelope $envelope): void
+    public function add(Envelope $envelope): bool
     {
         if (!$this->offer($envelope)) {
             throw new IllegalStateException("Could not add to queue $this->queueName");
         }
+
+        return true;
     }
 
     public function offer(Envelope $envelope): bool

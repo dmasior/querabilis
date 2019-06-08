@@ -27,17 +27,24 @@ $envelope = $queue->remove();
 
 $envelope->getPayload(); // "Payload goes here"
 ```
-### Summary of methods
-|  | Throws exception | Returns special value |
-| --- | --- | --- |
-| Insert | add(e) | offer(e) |
-| Remove | remove() | poll() |
-| Examine | element() | peek() |
 ### Currently supported drivers
 - Filesystem
 - Redis (Predis)
 - Amazon SQS
 - In memory
+
+Each driver implements Queue interface.
+
+### Summary of Queue interface
+##### Insert
+- `add(e)` - inserts an element if possible, otherwise throwing exception
+- `offer(e)` - inserts an element if possible, otherwise returning false
+##### Remove
+- `remove()` - remove and return head of queue, otherwise throwing exception
+- `poll()` - remove and return head of queue, otherwise returning null
+##### Examine
+- `element()` - return but do not remove head of queue, otherwise throwing exception
+- `peek()` - return but do not remove head of queue, otherwise returning null
 
 ### More examples
 ##### Redis (Predis) driver

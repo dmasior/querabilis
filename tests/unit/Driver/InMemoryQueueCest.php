@@ -21,11 +21,13 @@ class InMemoryQueueCest
         $envelopeTwo = EnvelopeMother::any();
         $queue = new InMemoryQueue();
 
-        $queue->$method($envelopeOne);
-        $queue->$method($envelopeTwo);
+        $resultOne = $queue->$method($envelopeOne);
+        $resultTwo = $queue->$method($envelopeTwo);
 
         $I->assertSame($envelopeOne, $queue->remove());
         $I->assertSame($envelopeTwo, $queue->poll());
+        $I->assertTrue($resultOne);
+        $I->assertTrue($resultTwo);
     }
 
     /**

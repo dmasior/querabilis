@@ -28,11 +28,13 @@ final class FilesystemQueue implements Queue
         $this->path = $path;
     }
 
-    public function add(Envelope $envelope): void
+    public function add(Envelope $envelope): bool
     {
         if (!$this->offer($envelope)) {
             $this->throwItIsNotWriteable();
         }
+
+        return true;
     }
 
     public function offer(Envelope $envelope): bool

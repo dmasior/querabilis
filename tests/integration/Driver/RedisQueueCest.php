@@ -20,9 +20,10 @@ class RedisQueueCest
         $envelope = EnvelopeMother::any();
         $queue = new RedisQueue(PredisClientMother::default(), $key);
 
-        $queue->add($envelope);
+        $actual = $queue->add($envelope);
 
         $I->seeInRedis($key);
+        $I->assertTrue($actual);
     }
 
     public function offer(IntegrationTester $I)
