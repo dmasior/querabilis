@@ -36,12 +36,15 @@ $envelope->getPayload(); // "Payload goes here"
 Each driver implements Queue interface.
 
 ### Summary of Queue interface
+
 ##### Insert
 - `add(e)` - inserts an element if possible, otherwise throwing exception
 - `offer(e)` - inserts an element if possible, otherwise returning false
+
 ##### Remove
 - `remove()` - remove and return head of queue, otherwise throwing exception
 - `poll()` - remove and return head of queue, otherwise returning null
+
 ##### Examine
 - `element()` - return but do not remove head of queue, otherwise throwing exception
 - `peek()` - return but do not remove head of queue, otherwise returning null
