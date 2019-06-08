@@ -11,7 +11,7 @@ interface Queue
      * Inserts an element if possible, otherwise throwing exception.
      *
      * @param Envelope $envelope
-     * @return true
+     * @return bool
      * @throws IllegalStateException
      */
     public function add(Envelope $envelope): bool;
