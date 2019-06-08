@@ -29,7 +29,7 @@ $envelope->getPayload(); // "Payload goes here"
 ```
 ### Summary of methods
 |  | Throws exception | Returns special value |
-| :--- | :--- |:--- |
+| --- | --- | --- |
 | Insert | add(e) | offer(e) |
 | Remove | remove() | poll() |
 | Examine | element() | peek() |
