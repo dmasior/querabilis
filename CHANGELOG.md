@@ -2,7 +2,7 @@
 
 ## 0.4.1
 Added
-- Beanstalkd driver (credits @Zae )
+- Beanstalkd driver (credits https://github.com/Zae )
 
 ## 0.4
 Added
