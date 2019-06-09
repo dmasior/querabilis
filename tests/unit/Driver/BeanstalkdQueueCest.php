@@ -2,22 +2,14 @@
 
 namespace Tests\Unit\Driver;
 
-use Initx\Driver\BeanstalkdQueue;
-use Initx\Driver\HasFallbackSerializer;
+use Initx\Querabilis\Driver\BeanstalkdQueue;
+use Initx\Querabilis\Driver\HasFallbackSerializer;
 use Mockery;
-use Mockery\Mock;
 use Pheanstalk\Contract\PheanstalkInterface;
 use Pheanstalk\Job;
-use Tests\Double\EnvelopeMother;
-use Tests\Double\BeanstalkdClientMother;
-use Tests\IntegrationTester;
-use Tests\InteractsWithBeanstalkd;
+use Initx\Querabilis\Tests\Double\EnvelopeMother;
+use Initx\Querabilis\Tests\IntegrationTester;
 
-/**
- * Class BeanstalkdQueueCest
- *
- * @package Tests\Integration\Driver
- */
 class BeanstalkdQueueCest
 {
     use HasFallbackSerializer;
@@ -32,13 +24,9 @@ class BeanstalkdQueueCest
         $this->serializer = $this->fallbackSerializer();
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @throws \Initx\Exception\IllegalStateException
-     */
     public function add(IntegrationTester $I): void
     {
+        // arrange
         $envelope = EnvelopeMother::any();
         $serialized = $this->serializer->serialize($envelope, 'json');
 
@@ -55,9 +43,10 @@ class BeanstalkdQueueCest
 
         $queue = new BeanstalkdQueue($pheanstalk, PheanstalkInterface::DEFAULT_TUBE);
 
-
+        // act
         $actual = $queue->add($envelope);
 
+        // assert
         $I->assertTrue($actual);
     }
 
@@ -66,8 +55,8 @@ class BeanstalkdQueueCest
      */
     public function offer(IntegrationTester $I): void
     {
+        // arrange
         $envelope = EnvelopeMother::any();
-        $serialized = $this->serializer->serialize($envelope, 'json');
 
         $pheanstalk = Mockery::mock(PheanstalkInterface::class);
         $pheanstalk->expects()
@@ -82,19 +71,13 @@ class BeanstalkdQueueCest
 
         $queue = new BeanstalkdQueue($pheanstalk, PheanstalkInterface::DEFAULT_TUBE);
 
-        $envelope = EnvelopeMother::any();
-
+        // act
         $queue->offer($envelope);
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @throws \Initx\Exception\IllegalStateException
-     * @throws \Initx\Exception\NoSuchElementException
-     */
     public function remove(IntegrationTester $I): void
     {
+        //arrange
         $envelopeOne = EnvelopeMother::any();
         $envelopeTwo = EnvelopeMother::any();
 
@@ -136,15 +119,18 @@ class BeanstalkdQueueCest
         $queue->add($envelopeOne);
         $queue->add($envelopeTwo);
 
+        // act
         $actualOne = $queue->remove();
         $actualTwo = $queue->remove();
 
+        // assert
         $I->assertEquals($envelopeOne, $actualOne);
         $I->assertEquals($envelopeTwo, $actualTwo);
     }
 
     public function poll(IntegrationTester $I)
     {
+        // arrange
         $envelopeOne = EnvelopeMother::any();
         $envelopeTwo = EnvelopeMother::any();
 
@@ -187,22 +173,20 @@ class BeanstalkdQueueCest
         $queue->add($envelopeOne);
         $queue->add($envelopeTwo);
 
+        // act
         $actualOne = $queue->poll();
         $actualTwo = $queue->poll();
         $actualThree = $queue->poll();
 
+        // assert
         $I->assertEquals($envelopeOne, $actualOne);
         $I->assertEquals($envelopeTwo, $actualTwo);
         $I->assertNull($actualThree);
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @throws \Initx\Exception\IllegalStateException
-     */
     public function peek(IntegrationTester $I): void
     {
+        // arrange
         $envelopeOne = EnvelopeMother::any();
         $envelopeTwo = EnvelopeMother::any();
 
@@ -242,22 +226,19 @@ class BeanstalkdQueueCest
         $queue->add($envelopeOne);
         $queue->add($envelopeTwo);
 
+        // act
         $actualOne = $queue->peek();
         $actualTwo = $queue->peek();
 
+        // assert
         $I->assertEquals($envelopeOne, $actualOne);
         // actual two = envelope one
         $I->assertEquals($envelopeOne, $actualTwo);
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @throws \Initx\Exception\IllegalStateException
-     * @throws \Initx\Exception\NoSuchElementException
-     */
     public function element(IntegrationTester $I): void
     {
+        // arrange
         $envelopeOne = EnvelopeMother::any();
         $envelopeTwo = EnvelopeMother::any();
 
@@ -297,9 +278,11 @@ class BeanstalkdQueueCest
         $queue->add($envelopeOne);
         $queue->add($envelopeTwo);
 
+        // act
         $actualOne = $queue->element();
         $actualTwo = $queue->element();
 
+        // assert
         $I->assertEquals($envelopeOne, $actualOne);
         // actual two = envelope one
         $I->assertEquals($envelopeOne, $actualTwo);

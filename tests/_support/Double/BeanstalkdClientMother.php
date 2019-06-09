@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Double;
+namespace Initx\Querabilis\Tests\Double;
 
 use Pheanstalk\Contract\PheanstalkInterface;
 use Pheanstalk\Pheanstalk;
