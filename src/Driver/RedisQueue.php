@@ -13,6 +13,7 @@ use Throwable;
 final class RedisQueue implements Queue
 {
     use HasFallbackSerializer;
+    use HasDefaultRemoveAndElement;
 
     /**
      * @var ClientInterface
@@ -55,17 +56,6 @@ final class RedisQueue implements Queue
         );
     }
 
-    public function remove(): Envelope
-    {
-        $element = $this->poll();
-
-        if (!$element) {
-            throw new NoSuchElementException();
-        }
-
-        return $element;
-    }
-
     public function poll(): ?Envelope
     {
         try {
@@ -79,17 +69,6 @@ final class RedisQueue implements Queue
         }
 
         return $this->serializer->deserialize($serialized, Envelope::class, 'json');
-    }
-
-    public function element(): Envelope
-    {
-        $element = $this->peek();
-
-        if (!$element) {
-            throw new NoSuchElementException();
-        }
-
-        return $element;
     }
 
     public function peek(): ?Envelope

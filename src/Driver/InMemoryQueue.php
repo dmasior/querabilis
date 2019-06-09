@@ -8,6 +8,8 @@ use Initx\Querabilis\Queue;
 
 final class InMemoryQueue implements Queue
 {
+    use HasDefaultRemoveAndElement;
+
     /**
      * @var Envelope[]
      */
@@ -25,33 +27,11 @@ final class InMemoryQueue implements Queue
         return true;
     }
 
-    public function remove(): Envelope
-    {
-        $element = $this->poll();
-
-        if (!$element) {
-            throw new NoSuchElementException();
-        }
-
-        return $element;
-    }
-
     public function poll(): ?Envelope
     {
         $item = array_shift($this->items);
 
         return $item ?: null;
-    }
-
-    public function element(): Envelope
-    {
-        $envelope = $this->peek();
-
-        if (!$envelope) {
-            throw new NoSuchElementException();
-        }
-
-        return $envelope;
     }
 
     public function peek(): ?Envelope

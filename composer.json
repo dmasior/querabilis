@@ -31,7 +31,8 @@
     "symfony/yaml": "^4.0",
     "predis/predis": "^1.1",
     "aws/aws-sdk-php": "^3.99",
-    "pda/pheanstalk": "^4.0"
+    "pda/pheanstalk": "^4.0",
+    "php-amqplib/php-amqplib": "^2.9"
   },
   "scripts": {
     "test": [

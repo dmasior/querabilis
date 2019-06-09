@@ -12,6 +12,7 @@ use Pheanstalk\Contract\PheanstalkInterface;
 final class BeanstalkdQueue implements Queue
 {
     use HasFallbackSerializer;
+    use HasDefaultRemoveAndElement;
 
     /**
      * @var PheanstalkInterface
@@ -56,17 +57,6 @@ final class BeanstalkdQueue implements Queue
             ->put($serialized);
     }
 
-    public function remove(): Envelope
-    {
-        $element = $this->poll();
-
-        if (!$element) {
-            throw new NoSuchElementException();
-        }
-
-        return $element;
-    }
-
     public function poll(): ?Envelope
     {
         $job = $this->client
@@ -84,17 +74,6 @@ final class BeanstalkdQueue implements Queue
         }
 
         return $this->serializer->deserialize($serialized, Envelope::class, 'json');
-    }
-
-    public function element(): Envelope
-    {
-        $element = $this->peek();
-
-        if (!$element) {
-            throw new NoSuchElementException();
-        }
-
-        return $element;
     }
 
     public function peek(): ?Envelope

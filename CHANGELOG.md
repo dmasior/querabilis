@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5
+Added
+- AMQP driver
+
+Changed
+- refactor each driver methods remove() and element() - extract to trait
+
 ## 0.4.1
 Added
 - Beanstalkd driver ( credits https://github.com/Zae )

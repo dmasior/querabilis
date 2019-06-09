@@ -11,6 +11,7 @@ use JMS\Serializer\SerializerInterface;
 final class FilesystemQueue implements Queue
 {
     use HasFallbackSerializer;
+    use HasDefaultRemoveAndElement;
 
     /**
      * @var string
@@ -54,17 +55,6 @@ final class FilesystemQueue implements Queue
         return true;
     }
 
-    public function remove(): Envelope
-    {
-        $envelope = $this->poll();
-
-        if (!$envelope) {
-            throw new NoSuchElementException();
-        }
-
-        return $envelope;
-    }
-
     public function poll(): ?Envelope
     {
         $firstLine = $this->removeFirstLine();
@@ -74,17 +64,6 @@ final class FilesystemQueue implements Queue
         }
 
         return $this->serializer->deserialize($firstLine, Envelope::class, 'json');
-    }
-
-    public function element(): Envelope
-    {
-        $envelope = $this->peek();
-
-        if (!$envelope) {
-            throw new NoSuchElementException();
-        }
-
-        return $envelope;
     }
 
     public function peek(): ?Envelope

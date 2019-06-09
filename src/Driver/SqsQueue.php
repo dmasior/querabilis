@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
 final class SqsQueue implements Queue
 {
     use HasFallbackSerializer;
+    use HasDefaultRemoveAndElement;
 
     /**
      * @var SqsClient
@@ -69,17 +70,6 @@ final class SqsQueue implements Queue
         return (bool)$this->client->sendMessage($args);
     }
 
-    public function remove(): Envelope
-    {
-        $envelope = $this->poll();
-
-        if (!$envelope) {
-            throw new NoSuchElementException();
-        }
-
-        return $envelope;
-    }
-
     public function poll(): ?Envelope
     {
         $this->resolveQueueUrl();
@@ -100,17 +90,6 @@ final class SqsQueue implements Queue
 
         // no messages
         return null;
-    }
-
-    public function element(): Envelope
-    {
-        $envelope = $this->peek();
-
-        if (!$envelope) {
-            throw new NoSuchElementException();
-        }
-
-        return $envelope;
     }
 
     public function peek(): ?Envelope
