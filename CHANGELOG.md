@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+Added
+- Beanstalkd driver (credits @Zae )
+
 ## 0.4
 Added
 - Changelog
