@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Initx;
+namespace Initx\Querabilis;
 
-use Initx\Exception\IllegalStateException;
-use Initx\Exception\NoSuchElementException;
+use Initx\Querabilis\Exception\IllegalStateException;
+use Initx\Querabilis\Exception\NoSuchElementException;
 
 interface Queue
 {

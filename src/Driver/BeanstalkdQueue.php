@@ -1,19 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Initx\Driver;
+namespace Initx\Querabilis\Driver;
 
-use Initx\Envelope;
-use Initx\Exception\IllegalStateException;
-use Initx\Exception\NoSuchElementException;
-use Initx\Queue;
+use Initx\Querabilis\Envelope;
+use Initx\Querabilis\Exception\IllegalStateException;
+use Initx\Querabilis\Exception\NoSuchElementException;
+use Initx\Querabilis\Queue;
 use JMS\Serializer\SerializerInterface;
 use Pheanstalk\Contract\PheanstalkInterface;
 
-/**
- * Class BeanstalkdQueue
- *
- * @package Initx\Driver
- */
 final class BeanstalkdQueue implements Queue
 {
     use HasFallbackSerializer;
@@ -33,13 +28,6 @@ final class BeanstalkdQueue implements Queue
      */
     private $queueName;
 
-    /**
-     * BeanstalkdQueue constructor.
-     *
-     * @param PheanstalkInterface      $client
-     * @param string                   $queueName
-     * @param SerializerInterface|null $serializer
-     */
     public function __construct(
         PheanstalkInterface $client,
         string $queueName = PheanstalkInterface::DEFAULT_TUBE,
@@ -50,13 +38,6 @@ final class BeanstalkdQueue implements Queue
         $this->serializer = $this->fallbackSerializer($serializer);
     }
 
-    /**
-     * Inserts an element if possible, otherwise throwing exception.
-     *
-     * @param Envelope $envelope
-     * @return bool
-     * @throws IllegalStateException
-     */
     public function add(Envelope $envelope): bool
     {
         if (!$this->offer($envelope)) {
@@ -66,12 +47,6 @@ final class BeanstalkdQueue implements Queue
         return true;
     }
 
-    /**
-     * Inserts an element if possible, otherwise returning false.
-     *
-     * @param Envelope $envelope
-     * @return bool
-     */
     public function offer(Envelope $envelope): bool
     {
         $serialized = $this->serializer->serialize($envelope, 'json');
@@ -81,12 +56,6 @@ final class BeanstalkdQueue implements Queue
             ->put($serialized);
     }
 
-    /**
-     * Remove and return head of queue, otherwise throwing exception.
-     *
-     * @return Envelope
-     * @throws NoSuchElementException
-     */
     public function remove(): Envelope
     {
         $element = $this->poll();
@@ -98,11 +67,6 @@ final class BeanstalkdQueue implements Queue
         return $element;
     }
 
-    /**
-     * Remove and return head of queue, otherwise returning null.
-     *
-     * @return Envelope | null
-     */
     public function poll(): ?Envelope
     {
         $job = $this->client
@@ -122,12 +86,6 @@ final class BeanstalkdQueue implements Queue
         return $this->serializer->deserialize($serialized, Envelope::class, 'json');
     }
 
-    /**
-     * Return but do not remove head of queue, otherwise throwing exception.
-     *
-     * @return Envelope
-     * @throws NoSuchElementException
-     */
     public function element(): Envelope
     {
         $element = $this->peek();
@@ -139,11 +97,6 @@ final class BeanstalkdQueue implements Queue
         return $element;
     }
 
-    /**
-     * Return but do not remove head of queue, otherwise returning null.
-     *
-     * @return Envelope | null
-     */
     public function peek(): ?Envelope
     {
         $job = $this->client

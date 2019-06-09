@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Initx\Driver;
+namespace Initx\Querabilis\Driver;
 
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
@@ -13,7 +13,7 @@ trait HasFallbackSerializer
             $separator = DIRECTORY_SEPARATOR;
             $metaDir = sprintf('%s%s..%s..%sconfig%sjms', __DIR__, $separator, $separator, $separator, $separator);
             $serializer = SerializerBuilder::create()
-                ->addMetadataDir($metaDir, 'Initx')
+                ->addMetadataDir($metaDir, 'Initx\Querabilis')
                 ->build();
         }
 

@@ -2,15 +2,15 @@
 
 namespace Tests\Contract\Driver;
 
-use Initx\Driver\SqsQueue;
-use Initx\Exception\NoSuchElementException;
-use Tests\ContractTester;
-use Tests\Double\EnvelopeMother;
-use Tests\Double\SqsClientMother;
-use Tests\Double\SqsQueueMother;
+use Initx\Querabilis\Driver\SqsQueue;
+use Initx\Querabilis\Exception\NoSuchElementException;
+use Initx\Querabilis\Tests\ContractTester;
+use Initx\Querabilis\Tests\Double\EnvelopeMother;
+use Initx\Querabilis\Tests\Double\SqsClientMother;
+use Initx\Querabilis\Tests\Double\SqsQueueMother;
 
 /**
- * @coversDefaultClass \Initx\Driver\SqsQueue
+ * @coversDefaultClass \Initx\Querabilis\Driver\SqsQueue
  */
 class SnsQueueCest
 {

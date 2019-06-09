@@ -3,6 +3,7 @@ language: php
 sudo: false
 
 services:
+    - docker
     - redis-server
 
 cache:
@@ -16,9 +17,14 @@ php:
 matrix:
     fast_finish: true
 
+before_install:
+    - docker pull schickling/beanstalkd
+    - docker run -d -p 11300:11300 schickling/beanstalkd
+
 install:
     - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
+    - vendor/bin/codecept build
 
 script:
-    - composer test -- --env travis
+    - composer test
     - composer check-quality

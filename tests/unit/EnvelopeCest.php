@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Initx\Querabilis\Tests\Unit;
 
 use DateTime;
-use Initx\Envelope;
-use Tests\UnitTester;
+use Initx\Querabilis\Envelope;
+use Initx\Querabilis\Tests\UnitTester;
 
 class EnvelopeCest
 {

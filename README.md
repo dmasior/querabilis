@@ -9,13 +9,13 @@ $ composer require initx/querabilis
 ## Usage
 #### Driver
 ```php
-use Initx\Driver\FilesystemQueue;
+use Initx\Querabilis\Driver\FilesystemQueue;
 
 $queue = new FilesystemQueue('./queue');
 ```
 #### Push to queue
 ```php
-use Initx\Envelope;
+use Initx\Querabilis\Envelope;
 
 $envelope = new Envelope('Payload goes here');
 
@@ -53,7 +53,7 @@ Each driver implements Queue interface.
 ##### Redis (Predis) driver
 ```php
 use Predis\Client;
-use Initx\Driver\RedisQueue;
+use Initx\Querabilis\Driver\RedisQueue;
 
 $client = new Client(['host' => '127.0.0.1']);
 $queue = new RedisQueue($client, 'queueName');
@@ -61,7 +61,7 @@ $queue = new RedisQueue($client, 'queueName');
 ##### AWS SQS driver
 ```php
 use Aws\Sqs\SqsClient;
-use Initx\Driver\SqsQueue;
+use Initx\Querabilis\Driver\SqsQueue;
 
 $client = new SqsClient(your_sqs_client_config);
 $queue = new SqsQueue($client, 'queueName');
@@ -69,7 +69,7 @@ $queue = new SqsQueue($client, 'queueName');
 
 ##### In memory driver
 ```php
-use Initx\Driver\InMemoryQueue;
+use Initx\Querabilis\Driver\InMemoryQueue;
 
 $queue = new InMemoryQueue();
 ```

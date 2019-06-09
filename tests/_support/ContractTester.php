@@ -1,5 +1,8 @@
-<?php
-namespace Tests;
+<?php declare(strict_types=1);
+
+namespace Initx\Querabilis\Tests;
+
+use Initx\Querabilis\Tests\_generated\ContractTesterActions;
 
 /**
  * Inherited Methods
@@ -18,7 +21,7 @@ namespace Tests;
 */
 class ContractTester extends \Codeception\Actor
 {
-    use _generated\ContractTesterActions;
+    use ContractTesterActions;
 
    /**
     * Define custom actions here

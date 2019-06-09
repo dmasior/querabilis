@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Tests;
+namespace Initx\Querabilis\Tests;
+
+use Initx\Querabilis\Tests\_generated\UnitTesterActions;
 
 /**
  * Inherited Methods
@@ -19,7 +21,7 @@ namespace Tests;
 */
 class UnitTester extends \Codeception\Actor
 {
-    use _generated\UnitTesterActions;
+    use UnitTesterActions;
 
    /**
     * Define custom actions here

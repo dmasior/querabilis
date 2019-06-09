@@ -1,4 +1,4 @@
-namespace: Tests
+namespace: Initx\Querabilis\Tests
 paths:
     tests: tests
     output: tests/_output
@@ -13,6 +13,3 @@ coverage:
     enabled: true
     include:
         - src/*
-env:
-    beanstalkd:
-    travis:

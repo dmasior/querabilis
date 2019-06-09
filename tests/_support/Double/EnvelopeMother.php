@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Double;
+namespace Initx\Querabilis\Tests\Double;
 
 use Faker\Factory;
-use Initx\Envelope;
+use Initx\Querabilis\Envelope;
 
 class EnvelopeMother
 {

@@ -1,5 +1,5 @@
 actor: ContractTester
-suite_namespace: Tests\Contract
+suite_namespace: Initx\Querabilis\Tests\Contract
 modules:
   enabled:
     - Tests\Helper\Contract

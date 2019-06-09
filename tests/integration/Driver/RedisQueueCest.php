@@ -2,10 +2,10 @@
 
 namespace Tests\Integration\Driver;
 
-use Initx\Driver\RedisQueue;
-use Tests\Double\EnvelopeMother;
-use Tests\Double\PredisClientMother;
-use Tests\IntegrationTester;
+use Initx\Querabilis\Driver\RedisQueue;
+use Initx\Querabilis\Tests\Double\EnvelopeMother;
+use Initx\Querabilis\Tests\Double\PredisClientMother;
+use Initx\Querabilis\Tests\IntegrationTester;
 
 class RedisQueueCest
 {
