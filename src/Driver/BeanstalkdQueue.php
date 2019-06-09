@@ -28,11 +28,6 @@ final class BeanstalkdQueue implements Queue
      */
     private $queueName;
 
-    /**
-     * @param PheanstalkInterface      $client
-     * @param string                   $queueName
-     * @param SerializerInterface|null $serializer
-     */
     public function __construct(
         PheanstalkInterface $client,
         string $queueName = PheanstalkInterface::DEFAULT_TUBE,
