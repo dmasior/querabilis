@@ -1,4 +1,4 @@
-namespace: Tests
+namespace: Initx\Querabilis\Tests
 paths:
     tests: tests
     output: tests/_output

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Tests;
+namespace Initx\Querabilis\Tests;
 
-use Tests\_generated\IntegrationTesterActions;
+use Initx\Querabilis\Tests\_generated\IntegrationTesterActions;
 
 /**
  * Inherited Methods

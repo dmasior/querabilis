@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit\Driver;
+namespace Initx\Querabilis\Tests\Unit\Driver;
 
 use Aws\Result;
 use Aws\Sqs\SqsClient;
@@ -9,8 +9,8 @@ use Initx\Querabilis\Driver\SqsQueue;
 use Initx\Querabilis\Exception\IllegalStateException;
 use Initx\Querabilis\Exception\NoSuchElementException;
 use Mockery;
-use Tests\Double\EnvelopeMother;
-use Tests\UnitTester;
+use Initx\Querabilis\Tests\Double\EnvelopeMother;
+use Initx\Querabilis\Tests\UnitTester;
 
 class SnsQueueCest
 {

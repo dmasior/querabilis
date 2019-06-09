@@ -4,10 +4,10 @@ namespace Tests\Contract\Driver;
 
 use Initx\Querabilis\Driver\SqsQueue;
 use Initx\Querabilis\Exception\NoSuchElementException;
-use Tests\ContractTester;
-use Tests\Double\EnvelopeMother;
-use Tests\Double\SqsClientMother;
-use Tests\Double\SqsQueueMother;
+use Initx\Querabilis\Tests\ContractTester;
+use Initx\Querabilis\Tests\Double\EnvelopeMother;
+use Initx\Querabilis\Tests\Double\SqsClientMother;
+use Initx\Querabilis\Tests\Double\SqsQueueMother;
 
 /**
  * @coversDefaultClass \Initx\Querabilis\Driver\SqsQueue

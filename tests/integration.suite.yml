@@ -1,5 +1,5 @@
 actor: IntegrationTester
-suite_namespace: Tests\Integration
+suite_namespace: Initx\Querabilis\Tests\Integration
 modules:
     enabled:
         - Asserts

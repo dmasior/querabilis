@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Integration\Driver;
+namespace Initx\Querabilis\Tests\Integration\Driver;
 
 use Initx\Querabilis\Driver\FilesystemQueue;
 use Initx\Querabilis\Exception\IllegalStateException;
 use Initx\Querabilis\Exception\NoSuchElementException;
 use Ramsey\Uuid\Uuid;
-use Tests\Double\EnvelopeMother;
-use Tests\IntegrationTester;
+use Initx\Querabilis\Tests\Double\EnvelopeMother;
+use Initx\Querabilis\Tests\IntegrationTester;
 
 class FilesystemQueueCest
 {

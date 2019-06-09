@@ -1,5 +1,5 @@
 actor: UnitTester
-suite_namespace: Tests\Unit
+suite_namespace: Initx\Querabilis\Tests\Unit
 modules:
     enabled:
         - Asserts

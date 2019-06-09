@@ -5,8 +5,7 @@ Added
 - Changelog
 
 Changed
-- namespace from Initx to Initx\Querabilis due to possible future compatibility issues
-
+- namespace Tests to Initx\Querabilis\Tests and Initx to Initx\Querabilis due to possible future compatibility issues
 
 ## 0.3.2
 Changed
