@@ -11,14 +11,14 @@
   ],
   "autoload": {
     "psr-4": {
-      "Initx\\": "src/"
+      "Initx\\Querabilis\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Initx\\Tests\\Unit\\": "tests/unit/",
-      "Initx\\Tests\\Integration\\": "tests/integration/",
-      "Initx\\Tests\\Contract\\": "tests/contract/"
+      "Initx\\Querabilis\\Tests\\Unit\\": "tests/unit/",
+      "Initx\\Querabilis\\Tests\\Integration\\": "tests/integration/",
+      "Initx\\Querabilis\\Tests\\Contract\\": "tests/contract/"
     },
     "classmap": [
       "tests/_support"

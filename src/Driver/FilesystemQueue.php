@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Initx\Driver;
+namespace Initx\Querabilis\Driver;
 
-use Initx\Envelope;
-use Initx\Exception\IllegalStateException;
-use Initx\Exception\NoSuchElementException;
-use Initx\Queue;
+use Initx\Querabilis\Envelope;
+use Initx\Querabilis\Exception\IllegalStateException;
+use Initx\Querabilis\Exception\NoSuchElementException;
+use Initx\Querabilis\Queue;
 use JMS\Serializer\SerializerInterface;
 
 final class FilesystemQueue implements Queue

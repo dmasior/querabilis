@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Driver;
 
-use Initx\Driver\RedisQueue;
+use Initx\Querabilis\Driver\RedisQueue;
 use Tests\Double\EnvelopeMother;
 use Tests\Double\PredisClientMother;
 use Tests\IntegrationTester;

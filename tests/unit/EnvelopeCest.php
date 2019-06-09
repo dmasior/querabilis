@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use DateTime;
-use Initx\Envelope;
+use Initx\Querabilis\Envelope;
 use Tests\UnitTester;
 
 class EnvelopeCest

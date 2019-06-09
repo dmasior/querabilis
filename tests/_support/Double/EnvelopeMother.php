@@ -3,7 +3,7 @@
 namespace Tests\Double;
 
 use Faker\Factory;
-use Initx\Envelope;
+use Initx\Querabilis\Envelope;
 
 class EnvelopeMother
 {

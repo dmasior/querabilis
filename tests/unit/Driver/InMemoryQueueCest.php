@@ -3,10 +3,10 @@
 namespace Tests\Unit\Driver;
 
 use Codeception\Example;
-use Initx\Exception\NoSuchElementException;
+use Initx\Querabilis\Exception\NoSuchElementException;
 use Tests\Double\EnvelopeMother;
 use Tests\UnitTester;
-use Initx\Driver\InMemoryQueue;
+use Initx\Querabilis\Driver\InMemoryQueue;
 
 class InMemoryQueueCest
 {

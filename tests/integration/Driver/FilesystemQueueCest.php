@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Driver;
 
-use Initx\Driver\FilesystemQueue;
-use Initx\Exception\IllegalStateException;
-use Initx\Exception\NoSuchElementException;
+use Initx\Querabilis\Driver\FilesystemQueue;
+use Initx\Querabilis\Exception\IllegalStateException;
+use Initx\Querabilis\Exception\NoSuchElementException;
 use Ramsey\Uuid\Uuid;
 use Tests\Double\EnvelopeMother;
 use Tests\IntegrationTester;
