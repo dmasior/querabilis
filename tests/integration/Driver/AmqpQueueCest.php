@@ -6,7 +6,7 @@ use Codeception\Example;
 use Initx\Querabilis\Driver\AmqpQueue;
 use Initx\Querabilis\Exception\NoSuchElementException;
 use Initx\Querabilis\Tests\Double\EnvelopeMother;
-use Initx\Querabilis\Tests\Double\RabbitmqConnectionMother;
+use Initx\Querabilis\Tests\Double\AmqpConnectionMother;
 use Initx\Querabilis\Tests\IntegrationTester;
 
 class AmqpQueueCest
@@ -17,7 +17,7 @@ class AmqpQueueCest
 
     public function _before()
     {
-        $channel = RabbitmqConnectionMother::default()->channel();
+        $channel = AmqpConnectionMother::default()->channel();
         $channel->queue_declare(self::QUEUE);
         $channel->queue_purge(self::QUEUE);
         $channel->queue_bind(self::QUEUE, self::EXCHANGE);
@@ -26,7 +26,7 @@ class AmqpQueueCest
     public function add(IntegrationTester $I)
     {
         $envelope = EnvelopeMother::any();
-        $queue = new AmqpQueue(RabbitmqConnectionMother::default(), self::QUEUE, self::EXCHANGE);
+        $queue = new AmqpQueue(AmqpConnectionMother::default(), self::QUEUE, self::EXCHANGE);
 
         $actual = $queue->add($envelope);
 
@@ -36,7 +36,7 @@ class AmqpQueueCest
     public function offer(IntegrationTester $I)
     {
         $envelope = EnvelopeMother::any();
-        $queue = new AmqpQueue(RabbitmqConnectionMother::default(), self::QUEUE, self::EXCHANGE);
+        $queue = new AmqpQueue(AmqpConnectionMother::default(), self::QUEUE, self::EXCHANGE);
 
         $actual = $queue->offer($envelope);
 
@@ -51,7 +51,7 @@ class AmqpQueueCest
     {
         $envelopeOne = EnvelopeMother::any();
         $envelopeTwo = EnvelopeMother::any();
-        $queue = new AmqpQueue(RabbitmqConnectionMother::default(), self::QUEUE, self::EXCHANGE);
+        $queue = new AmqpQueue(AmqpConnectionMother::default(), self::QUEUE, self::EXCHANGE);
         $queue->add($envelopeOne);
         $queue->add($envelopeTwo);
         $method = $example['method'];
@@ -70,7 +70,7 @@ class AmqpQueueCest
     public function examineMethods(IntegrationTester $I, Example $example)
     {
         $envelopeOne = EnvelopeMother::any();
-        $queue = new AmqpQueue(RabbitmqConnectionMother::default(), self::QUEUE, self::EXCHANGE);
+        $queue = new AmqpQueue(AmqpConnectionMother::default(), self::QUEUE, self::EXCHANGE);
         $queue->add($envelopeOne);
         $queue->add(EnvelopeMother::any());
         $method = $example['method'];
@@ -89,7 +89,7 @@ class AmqpQueueCest
      */
     public function throwsWhenEmpty(IntegrationTester $I, Example $example)
     {
-        $queue = new AmqpQueue(RabbitmqConnectionMother::default(), self::QUEUE, self::EXCHANGE);
+        $queue = new AmqpQueue(AmqpConnectionMother::default(), self::QUEUE, self::EXCHANGE);
         $method = $example['method'];
 
         $I->expectException(NoSuchElementException::class, function () use ($queue, $method) {

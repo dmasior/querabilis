@@ -4,7 +4,7 @@ namespace Initx\Querabilis\Tests\Double;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-class RabbitmqConnectionMother
+class AmqpConnectionMother
 {
     public static function default(): AMQPStreamConnection
     {

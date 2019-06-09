@@ -30,6 +30,7 @@ $envelope->getPayload(); // "Payload goes here"
 ### Currently supported drivers
 - Amazon SQS
 - Redis (Predis)
+- AMQP
 - Beanstalkd
 - Filesystem
 - In memory
@@ -82,4 +83,13 @@ use Initx\Querabilis\Driver\BeanstalkdQueue;
 
 $client = Pheanstalk::create([your_beanstalkd_config]);
 $queue = new BeanstalkdQueue($client);
+```
+
+##### AMQP driver
+```php
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Initx\Querabilis\Driver\AmqpQueue;
+
+$connection = new AMQPStreamConnection([your_amqp_config]);
+$queue = new AmqpQueue($connection, 'queueName', 'exchange');
 ```
