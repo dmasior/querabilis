@@ -23,6 +23,7 @@ before_install:
 
 install:
     - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
+    - vendor/bin/codecept build
 
 script:
     - composer test
