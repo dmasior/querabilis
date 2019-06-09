@@ -28,9 +28,10 @@ $envelope = $queue->remove();
 $envelope->getPayload(); // "Payload goes here"
 ```
 ### Currently supported drivers
-- Filesystem
-- Redis (Predis)
 - Amazon SQS
+- Redis (Predis)
+- Beanstalkd
+- Filesystem
 - In memory
 
 Each driver implements Queue interface.
@@ -72,4 +73,13 @@ $queue = new SqsQueue($client, 'queueName');
 use Initx\Querabilis\Driver\InMemoryQueue;
 
 $queue = new InMemoryQueue();
+```
+
+##### Beanstalkd driver
+```php
+use Pheanstalk\Pheanstalk;
+use Initx\Querabilis\Driver\BeanstalkdQueue;
+
+$client = Pheanstalk::create([your_beanstalkd_config]);
+$queue = new BeanstalkdQueue($client);
 ```
