@@ -7,7 +7,7 @@ use JMS\Serializer\SerializerInterface;
 
 trait HasFallbackSerializer
 {
-    public function fallbackSerializer(?SerializerInterface $serializer = null): SerializerInterface
+    private function fallbackSerializer(?SerializerInterface $serializer = null): SerializerInterface
     {
         if (!$serializer) {
             $separator = DIRECTORY_SEPARATOR;
