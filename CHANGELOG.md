@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6
+Changed
+- Move dependencies from require to suggest of composer.json to make package flexible
+- Deep refactor after including slevomat coding standards
+
 ## 0.5
 Added
 - AMQP driver
