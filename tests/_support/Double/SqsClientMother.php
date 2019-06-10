@@ -11,7 +11,7 @@ class SqsClientMother
         return new SqsClient([
             'profile' => 'default',
             'region' => 'eu-west-1',
-            'version' => '2012-11-05'
+            'version' => '2012-11-05',
         ]);
     }
 }

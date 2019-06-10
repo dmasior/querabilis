@@ -28,25 +28,16 @@ final class Envelope
         $this->timestamp = $timestamp ?: new DateTime();
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getPayload(): string
     {
         return $this->payload;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getTimestamp(): DateTime
     {
         return $this->timestamp;

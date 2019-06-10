@@ -9,12 +9,12 @@ use Initx\Querabilis\Tests\IntegrationTester;
 
 class RedisQueueCest
 {
-    public function _before(IntegrationTester $I)
+    public function _before(IntegrationTester $I): void
     {
         $I->sendCommandToRedis('FLUSHALL');
     }
 
-    public function add(IntegrationTester $I)
+    public function add(IntegrationTester $I): void
     {
         $key = 'add';
         $envelope = EnvelopeMother::any();
@@ -26,7 +26,7 @@ class RedisQueueCest
         $I->assertTrue($actual);
     }
 
-    public function offer(IntegrationTester $I)
+    public function offer(IntegrationTester $I): void
     {
         $key = 'offer';
         $envelope = EnvelopeMother::any();
@@ -37,7 +37,7 @@ class RedisQueueCest
         $I->seeInRedis($key);
     }
 
-    public function remove(IntegrationTester $I)
+    public function remove(IntegrationTester $I): void
     {
         $key = 'remove';
         $envelopeOne = EnvelopeMother::any();
@@ -54,7 +54,7 @@ class RedisQueueCest
         $I->dontSeeInRedis($key);
     }
 
-    public function poll(IntegrationTester $I)
+    public function poll(IntegrationTester $I): void
     {
         $key = 'poll';
         $envelopeOne = EnvelopeMother::any();
@@ -73,7 +73,7 @@ class RedisQueueCest
         $I->dontSeeInRedis($key);
     }
 
-    public function peek(IntegrationTester $I)
+    public function peek(IntegrationTester $I): void
     {
         $key = 'peek';
         $envelopeOne = EnvelopeMother::any();
@@ -91,7 +91,7 @@ class RedisQueueCest
         $I->seeInRedis($key);
     }
 
-    public function element(IntegrationTester $I)
+    public function element(IntegrationTester $I): void
     {
         $key = 'element';
         $envelopeOne = EnvelopeMother::any();

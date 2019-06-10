@@ -3,10 +3,10 @@
 namespace Initx\Querabilis\Tests\Unit\Driver;
 
 use Codeception\Example;
+use Initx\Querabilis\Driver\InMemoryQueue;
 use Initx\Querabilis\Exception\NoSuchElementException;
 use Initx\Querabilis\Tests\Double\EnvelopeMother;
 use Initx\Querabilis\Tests\UnitTester;
-use Initx\Querabilis\Driver\InMemoryQueue;
 
 class InMemoryQueueCest
 {
@@ -14,7 +14,7 @@ class InMemoryQueueCest
      * @example { "method": "add" }
      * @example { "method": "offer" }
      */
-    public function addAndOffer(UnitTester $I, Example $example)
+    public function addAndOffer(UnitTester $I, Example $example): void
     {
         $method = $example['method'];
         $envelopeOne = EnvelopeMother::any();
@@ -34,12 +34,12 @@ class InMemoryQueueCest
      * @example { "method": "remove" }
      * @example { "method": "element" }
      */
-    public function throwsOnEmptyQueue(UnitTester $I, Example $example)
+    public function throwsOnEmptyQueue(UnitTester $I, Example $example): void
     {
         $method = $example['method'];
         $queue = new InMemoryQueue();
 
-        $I->expectException(NoSuchElementException::class, function () use ($queue, $method) {
+        $I->expectException(NoSuchElementException::class, function () use ($queue, $method): void {
             $queue->$method();
         });
     }
@@ -48,7 +48,7 @@ class InMemoryQueueCest
      * @example { "method": "element" }
      * @example { "method": "peek" }
      */
-    public function elementAndPeek(UnitTester $I, Example $example)
+    public function elementAndPeek(UnitTester $I, Example $example): void
     {
         $method = $example['method'];
         $envelopeOne = EnvelopeMother::any();

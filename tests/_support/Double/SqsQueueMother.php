@@ -38,15 +38,17 @@ class SqsQueueMother
 
         foreach ($result->get('QueueUrls') as $queueUrl) {
             // check queue url for test prefix
-            if (mb_strpos($queueUrl, self::QUEUE_PREFIX)) {
-                try {
-                    $client->deleteQueue([
-                        'QueueUrl' => $queueUrl // REQUIRED
-                    ]);
-                } catch (SqsException $exception) {
-                    // no need to log or rethrow Sqs exception in this case,
-                    // probably aws returned not existing queue url (lag)
-                }
+            if (!mb_strpos($queueUrl, self::QUEUE_PREFIX)) {
+                continue;
+            }
+
+            try {
+                $client->deleteQueue([
+                    'QueueUrl' => $queueUrl, // REQUIRED
+                ]);
+            } catch (SqsException $exception) {
+                // no need to log or rethrow Sqs exception in this case,
+                // probably aws returned not existing queue url (lag)
             }
         }
     }

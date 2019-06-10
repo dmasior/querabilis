@@ -5,9 +5,9 @@ namespace Initx\Querabilis\Tests\Integration\Driver;
 use Initx\Querabilis\Driver\FilesystemQueue;
 use Initx\Querabilis\Exception\IllegalStateException;
 use Initx\Querabilis\Exception\NoSuchElementException;
-use Ramsey\Uuid\Uuid;
 use Initx\Querabilis\Tests\Double\EnvelopeMother;
 use Initx\Querabilis\Tests\IntegrationTester;
+use Ramsey\Uuid\Uuid;
 
 class FilesystemQueueCest
 {
@@ -25,9 +25,11 @@ class FilesystemQueueCest
 
     public function _after(): void
     {
-        if (file_exists($this->path)) {
-            unlink($this->path);
+        if (!file_exists($this->path)) {
+            return;
         }
+
+        unlink($this->path);
     }
 
     public function addOk(IntegrationTester $I): void
@@ -50,7 +52,7 @@ class FilesystemQueueCest
         $queue = new FilesystemQueue(self::UNREACHABLE_PATH);
 
         // act
-        $I->expectException(IllegalStateException::class, function () use ($queue, $envelope) {
+        $I->expectException(IllegalStateException::class, function () use ($queue, $envelope): void {
             $queue->add($envelope);
         });
     }
@@ -75,7 +77,7 @@ class FilesystemQueueCest
         $queue = new FilesystemQueue(self::UNREACHABLE_PATH);
 
         // act
-        $I->expectException(IllegalStateException::class, function () use ($queue, $envelope) {
+        $I->expectException(IllegalStateException::class, function () use ($queue, $envelope): void {
             $queue->offer($envelope);
         });
     }
@@ -105,7 +107,7 @@ class FilesystemQueueCest
         $queue = new FilesystemQueue($this->path);
 
         // act
-        $I->expectException(NoSuchElementException::class, function () use ($queue) {
+        $I->expectException(NoSuchElementException::class, function () use ($queue): void {
             $queue->remove();
         });
     }
@@ -116,7 +118,7 @@ class FilesystemQueueCest
         $queue = new FilesystemQueue($this->path);
 
         // act
-        $I->expectException(IllegalStateException::class, function () use ($queue) {
+        $I->expectException(IllegalStateException::class, function () use ($queue): void {
             $queue->remove();
         });
     }
@@ -175,7 +177,7 @@ class FilesystemQueueCest
         $queue = new FilesystemQueue($this->path);
 
         // act
-        $I->expectException(NoSuchElementException::class, function () use ($queue) {
+        $I->expectException(NoSuchElementException::class, function () use ($queue): void {
             $queue->element();
         });
     }

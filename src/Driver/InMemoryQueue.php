@@ -3,7 +3,6 @@
 namespace Initx\Querabilis\Driver;
 
 use Initx\Querabilis\Envelope;
-use Initx\Querabilis\Exception\NoSuchElementException;
 use Initx\Querabilis\Queue;
 
 final class InMemoryQueue implements Queue
@@ -36,8 +35,6 @@ final class InMemoryQueue implements Queue
 
     public function peek(): ?Envelope
     {
-        $item = $this->items[0] ?? null;
-
-        return $item;
+        return $this->items[0] ?? null;
     }
 }

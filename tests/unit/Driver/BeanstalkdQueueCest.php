@@ -4,11 +4,11 @@ namespace Tests\Unit\Driver;
 
 use Initx\Querabilis\Driver\BeanstalkdQueue;
 use Initx\Querabilis\Driver\HasFallbackSerializer;
+use Initx\Querabilis\Tests\Double\EnvelopeMother;
+use Initx\Querabilis\Tests\IntegrationTester;
 use Mockery;
 use Pheanstalk\Contract\PheanstalkInterface;
 use Pheanstalk\Job;
-use Initx\Querabilis\Tests\Double\EnvelopeMother;
-use Initx\Querabilis\Tests\IntegrationTester;
 
 class BeanstalkdQueueCest
 {
@@ -50,9 +50,6 @@ class BeanstalkdQueueCest
         $I->assertTrue($actual);
     }
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function offer(IntegrationTester $I): void
     {
         // arrange
@@ -72,7 +69,10 @@ class BeanstalkdQueueCest
         $queue = new BeanstalkdQueue($pheanstalk, PheanstalkInterface::DEFAULT_TUBE);
 
         // act
-        $queue->offer($envelope);
+        $result = $queue->offer($envelope);
+
+        // assert
+        $I->assertTrue($result);
     }
 
     public function remove(IntegrationTester $I): void
@@ -128,7 +128,7 @@ class BeanstalkdQueueCest
         $I->assertEquals($envelopeTwo, $actualTwo);
     }
 
-    public function poll(IntegrationTester $I)
+    public function poll(IntegrationTester $I): void
     {
         // arrange
         $envelopeOne = EnvelopeMother::any();

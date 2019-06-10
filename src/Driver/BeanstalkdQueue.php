@@ -4,7 +4,6 @@ namespace Initx\Querabilis\Driver;
 
 use Initx\Querabilis\Envelope;
 use Initx\Querabilis\Exception\IllegalStateException;
-use Initx\Querabilis\Exception\NoSuchElementException;
 use Initx\Querabilis\Queue;
 use JMS\Serializer\SerializerInterface;
 use Pheanstalk\Contract\PheanstalkInterface;

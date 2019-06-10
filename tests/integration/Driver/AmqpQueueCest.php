@@ -5,8 +5,8 @@ namespace Tests\Integration\Driver;
 use Codeception\Example;
 use Initx\Querabilis\Driver\AmqpQueue;
 use Initx\Querabilis\Exception\NoSuchElementException;
-use Initx\Querabilis\Tests\Double\EnvelopeMother;
 use Initx\Querabilis\Tests\Double\AmqpConnectionMother;
+use Initx\Querabilis\Tests\Double\EnvelopeMother;
 use Initx\Querabilis\Tests\IntegrationTester;
 
 class AmqpQueueCest
@@ -15,7 +15,7 @@ class AmqpQueueCest
 
     private const QUEUE = 'kue1';
 
-    public function _before()
+    public function _before(): void
     {
         $channel = AmqpConnectionMother::default()->channel();
         $channel->queue_declare(self::QUEUE);
@@ -23,7 +23,7 @@ class AmqpQueueCest
         $channel->queue_bind(self::QUEUE, self::EXCHANGE);
     }
 
-    public function add(IntegrationTester $I)
+    public function add(IntegrationTester $I): void
     {
         $envelope = EnvelopeMother::any();
         $queue = new AmqpQueue(AmqpConnectionMother::default(), self::QUEUE, self::EXCHANGE);
@@ -33,7 +33,7 @@ class AmqpQueueCest
         $I->assertTrue($actual);
     }
 
-    public function offer(IntegrationTester $I)
+    public function offer(IntegrationTester $I): void
     {
         $envelope = EnvelopeMother::any();
         $queue = new AmqpQueue(AmqpConnectionMother::default(), self::QUEUE, self::EXCHANGE);
@@ -47,7 +47,7 @@ class AmqpQueueCest
      * @example { "method": "remove" }
      * @example { "method": "poll" }
      */
-    public function removeMethods(IntegrationTester $I, Example $example)
+    public function removeMethods(IntegrationTester $I, Example $example): void
     {
         $envelopeOne = EnvelopeMother::any();
         $envelopeTwo = EnvelopeMother::any();
@@ -67,7 +67,7 @@ class AmqpQueueCest
      * @example { "method": "peek" }
      * @example { "method": "element" }
      */
-    public function examineMethods(IntegrationTester $I, Example $example)
+    public function examineMethods(IntegrationTester $I, Example $example): void
     {
         $envelopeOne = EnvelopeMother::any();
         $queue = new AmqpQueue(AmqpConnectionMother::default(), self::QUEUE, self::EXCHANGE);
@@ -87,12 +87,12 @@ class AmqpQueueCest
      * @example { "method": "remove" }
      * @example { "method": "element" }
      */
-    public function throwsWhenEmpty(IntegrationTester $I, Example $example)
+    public function throwsWhenEmpty(IntegrationTester $I, Example $example): void
     {
         $queue = new AmqpQueue(AmqpConnectionMother::default(), self::QUEUE, self::EXCHANGE);
         $method = $example['method'];
 
-        $I->expectException(NoSuchElementException::class, function () use ($queue, $method) {
+        $I->expectException(NoSuchElementException::class, function () use ($queue, $method): void {
             $queue->$method();
         });
     }

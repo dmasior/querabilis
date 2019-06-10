@@ -43,7 +43,7 @@ class SnsQueueCest
         $I->assertTrue($actualTwo);
     }
 
-    public function offerTwo(ContractTester $I): void
+    public function offerTwo(): void
     {
         // arrange
         $queue = new SqsQueue(SqsClientMother::default(), $this->queueName);
@@ -73,7 +73,7 @@ class SnsQueueCest
         $queue = new SqsQueue(SqsClientMother::default(), $this->queueName);
 
         // act
-        $I->expectException(NoSuchElementException::class, function () use ($queue) {
+        $I->expectException(NoSuchElementException::class, function () use ($queue): void {
             $queue->remove();
         });
     }
@@ -150,7 +150,7 @@ class SnsQueueCest
         $queue = new SqsQueue(SqsClientMother::default(), $this->queueName);
 
         // act
-        $I->expectException(NoSuchElementException::class, function () use ($queue) {
+        $I->expectException(NoSuchElementException::class, function () use ($queue): void {
             $queue->element();
         });
     }

@@ -22,7 +22,6 @@ use Initx\Querabilis\Tests\_generated\ContractTesterActions;
 class ContractTester extends \Codeception\Actor
 {
     use ContractTesterActions;
-
    /**
     * Define custom actions here
     */

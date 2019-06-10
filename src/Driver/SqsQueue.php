@@ -6,7 +6,6 @@ use Aws\Result;
 use Aws\Sqs\SqsClient;
 use Initx\Querabilis\Envelope;
 use Initx\Querabilis\Exception\IllegalStateException;
-use Initx\Querabilis\Exception\NoSuchElementException;
 use Initx\Querabilis\Queue;
 use JMS\Serializer\SerializerInterface;
 use Ramsey\Uuid\Uuid;
@@ -63,7 +62,7 @@ final class SqsQueue implements Queue
         ];
 
         if ($this->isFifo()) {
-            $args['MessageGroupId'] = __CLASS__;
+            $args['MessageGroupId'] = self::class;
             $args['MessageDeduplicationId'] = Uuid::uuid4()->toString();
         }
 
@@ -99,9 +98,8 @@ final class SqsQueue implements Queue
 
         if ($result->get('Messages') && count($result->get('Messages'))) {
             $message = $result->get('Messages')[0];
-            $envelope = $this->serializer->deserialize($message['Body'], Envelope::class, 'json');
 
-            return $envelope;
+            return $this->serializer->deserialize($message['Body'], Envelope::class, 'json');
         }
 
         // no messages
@@ -110,12 +108,15 @@ final class SqsQueue implements Queue
 
     private function resolveQueueUrl(): void
     {
+        if (!empty($this->queueUrl)) {
+            return;
+        }
+
+        $result = $this->client->getQueueUrl(['QueueName' => $this->queueName]);
+        $this->queueUrl = $result->get('QueueUrl');
+
         if (empty($this->queueUrl)) {
-            $result = $this->client->getQueueUrl(['QueueName' => $this->queueName]);
-            $this->queueUrl = $result->get('QueueUrl');
-            if (empty($this->queueUrl)) {
-                throw new IllegalStateException("Could not resolve queue url from queue name '{$this->queueName}'");
-            }
+            throw new IllegalStateException("Could not resolve queue url from queue name '{$this->queueName}'");
         }
     }
 
@@ -136,6 +137,6 @@ final class SqsQueue implements Queue
     {
         $length = strlen($needle);
 
-        return (substr($haystack, -$length) === $needle);
+        return substr($haystack, -$length) === $needle;
     }
 }

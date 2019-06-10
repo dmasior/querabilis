@@ -4,7 +4,6 @@ namespace Initx\Querabilis\Driver;
 
 use Initx\Querabilis\Envelope;
 use Initx\Querabilis\Exception\IllegalStateException;
-use Initx\Querabilis\Exception\NoSuchElementException;
 use Initx\Querabilis\Queue;
 use JMS\Serializer\SerializerInterface;
 
@@ -82,24 +81,33 @@ final class FilesystemQueue implements Queue
         if (!file_exists($this->path)) {
             $this->throwItNotExists();
         }
+
         $firstLine = null;
-        if ($handle = fopen($this->path, 'cb+')) {
+
+        $handle = fopen($this->path, 'cb+');
+
+        if ($handle) {
             if (!flock($handle, LOCK_EX)) {
                 fclose($handle);
             }
+
             $offset = 0;
             $len = filesize($this->path);
+
             while (($line = fgets($handle, 4096)) !== false) {
                 if (!$firstLine) {
                     $firstLine = $line;
                     $offset = strlen($firstLine);
+
                     continue;
                 }
+
                 $pos = ftell($handle);
                 fseek($handle, $pos - strlen($line) - $offset);
                 fwrite($handle, $line);
                 fseek($handle, $pos);
             }
+
             fflush($handle);
             ftruncate($handle, $len - $offset);
             flock($handle, LOCK_UN);

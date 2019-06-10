@@ -36,7 +36,7 @@ class IntegrationTester extends \Codeception\Actor
      *
      * @param PheanstalkInterface $pheanstalk
      */
-    public function clearBeanstalkTube(PheanstalkInterface $pheanstalk)
+    public function clearBeanstalkTube(PheanstalkInterface $pheanstalk): void
     {
         while ($job = $pheanstalk->peekReady()) {
             $pheanstalk->delete($job);
@@ -49,7 +49,7 @@ class IntegrationTester extends \Codeception\Actor
      * @param PheanstalkInterface $pheanstalk
      * @param int $count
      */
-    public function seeBeanstalkQueueHasCurrentCount(PheanstalkInterface $pheanstalk, int $count)
+    public function seeBeanstalkQueueHasCurrentCount(PheanstalkInterface $pheanstalk, int $count): void
     {
         $stats = $pheanstalk->statsTube(PheanstalkInterface::DEFAULT_TUBE);
 
@@ -62,7 +62,7 @@ class IntegrationTester extends \Codeception\Actor
      * @param PheanstalkInterface $pheanstalk
      * @param Envelope $envelope
      */
-    public function seeBeanstalkCurrentEnvelope(PheanstalkInterface $pheanstalk, Envelope $envelope)
+    public function seeBeanstalkCurrentEnvelope(PheanstalkInterface $pheanstalk, Envelope $envelope): void
     {
         $serializer = $this->fallbackSerializer();
         $ready = $pheanstalk->peekReady();

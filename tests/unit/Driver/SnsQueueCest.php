@@ -8,13 +8,13 @@ use Codeception\Example;
 use Initx\Querabilis\Driver\SqsQueue;
 use Initx\Querabilis\Exception\IllegalStateException;
 use Initx\Querabilis\Exception\NoSuchElementException;
-use Mockery;
 use Initx\Querabilis\Tests\Double\EnvelopeMother;
 use Initx\Querabilis\Tests\UnitTester;
+use Mockery;
 
 class SnsQueueCest
 {
-    public function addOk(UnitTester $I)
+    public function addOk(UnitTester $I): void
     {
         $envelope = EnvelopeMother::any();
         $client = Mockery::mock(SqsClient::class);
@@ -27,7 +27,7 @@ class SnsQueueCest
         $I->assertTrue($result);
     }
 
-    public function addThrows(UnitTester $I)
+    public function addThrows(UnitTester $I): void
     {
         $envelope = EnvelopeMother::any();
         $client = Mockery::mock(SqsClient::class);
@@ -35,7 +35,7 @@ class SnsQueueCest
         $client->expects('sendMessage')->andReturn(false);
         $queue = new SqsQueue($client, 'name.fifo');
 
-        $I->expectException(IllegalStateException::class, function () use ($queue, $envelope) {
+        $I->expectException(IllegalStateException::class, function () use ($queue, $envelope): void {
             $queue->add($envelope);
         });
     }
@@ -46,7 +46,7 @@ class SnsQueueCest
      * @example { "method": "peek" }
      * @example { "method": "element" }
      */
-    public function queryMethod(UnitTester $I, Example $example)
+    public function queryMethod(UnitTester $I, Example $example): void
     {
         $client = Mockery::mock(SqsClient::class);
         $client->expects('getQueueUrl')
@@ -59,8 +59,8 @@ class SnsQueueCest
                     [
                         'Body' => $this->messageDouble(),
                         'ReceiptHandle' => 'handle',
-                    ]
-                ]
+                    ],
+                ],
             ]));
         $client->expects('deleteMessage')->once();
         $queue = new SqsQueue($client, 'name.fifo');
@@ -77,7 +77,7 @@ class SnsQueueCest
      * @example { "method": "remove" }
      * @example { "method": "element" }
      */
-    public function removeAndElementThrows(UnitTester $I, Example $example)
+    public function removeAndElementThrows(UnitTester $I, Example $example): void
     {
         $client = Mockery::mock(SqsClient::class);
         $client->expects('getQueueUrl')
@@ -90,7 +90,7 @@ class SnsQueueCest
         $queue = new SqsQueue($client, 'name.fifo');
         $method = $example['method'];
 
-        $I->expectException(NoSuchElementException::class, function () use ($queue, $method) {
+        $I->expectException(NoSuchElementException::class, function () use ($queue, $method): void {
             $queue->$method();
         });
     }

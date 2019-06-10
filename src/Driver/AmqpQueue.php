@@ -26,11 +26,6 @@ final class AmqpQueue implements Queue
     private $exchange;
 
     /**
-     * @var AbstractConnection
-     */
-    private $connection;
-
-    /**
      * @var string
      */
     private $routingKey;
@@ -52,7 +47,6 @@ final class AmqpQueue implements Queue
         string $routingKey = '',
         ?SerializerInterface $serializer = null
     ) {
-        $this->connection = $connection;
         $this->channel = $connection->channel();
         $this->queue = $queue;
         $this->exchange = $exchange;

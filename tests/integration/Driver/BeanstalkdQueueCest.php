@@ -3,10 +3,10 @@
 namespace Initx\Querabilis\Tests\Integration\Driver;
 
 use Initx\Querabilis\Driver\BeanstalkdQueue;
-use Pheanstalk\Contract\PheanstalkInterface;
-use Initx\Querabilis\Tests\Double\EnvelopeMother;
 use Initx\Querabilis\Tests\Double\BeanstalkdClientMother;
+use Initx\Querabilis\Tests\Double\EnvelopeMother;
 use Initx\Querabilis\Tests\IntegrationTester;
+use Pheanstalk\Contract\PheanstalkInterface;
 
 class BeanstalkdQueueCest
 {

@@ -8,7 +8,7 @@ use Initx\Querabilis\Tests\UnitTester;
 
 class EnvelopeCest
 {
-    public function newInstance(UnitTester $I)
+    public function newInstance(UnitTester $I): void
     {
         // arrange
         $payload = 'some text';
