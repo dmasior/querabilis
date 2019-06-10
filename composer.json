@@ -26,13 +26,15 @@
   },
   "minimum-stability": "stable",
   "require": {
-    "php": "^7.2",
+    "php": "^7.1",
     "jms/serializer": "^3.0",
-    "symfony/yaml": "^4.0",
-    "predis/predis": "^1.1",
-    "aws/aws-sdk-php": "^3.99",
-    "pda/pheanstalk": "^4.0",
-    "php-amqplib/php-amqplib": "^2.9"
+    "symfony/yaml": "^4.0"
+  },
+  "suggest": {
+    "php-amqplib/php-amqplib": "When using AMQP driver",
+    "pda/pheanstalk": "When using Beanstalk driver",
+    "predis/predis": "When using Redis driver",
+    "aws/aws-sdk-php": "When using AWS SQS driver"
   },
   "scripts": {
     "test": [
@@ -52,6 +54,10 @@
     "codeception/codeception": "^3.0",
     "mockery/mockery": "^1.2",
     "squizlabs/php_codesniffer": "*",
-    "vimeo/psalm": "^3.4"
+    "vimeo/psalm": "^3.4",
+    "predis/predis": "^1.1",
+    "aws/aws-sdk-php": "^3.99",
+    "pda/pheanstalk": "^4.0",
+    "php-amqplib/php-amqplib": "^2.9"
   }
 }
