@@ -9,9 +9,6 @@ use Initx\Querabilis\Tests\Double\EnvelopeMother;
 use Initx\Querabilis\Tests\Double\SqsClientMother;
 use Initx\Querabilis\Tests\Double\SqsQueueMother;
 
-/**
- * @coversDefaultClass \Initx\Querabilis\Driver\SqsQueue
- */
 class SnsQueueCest
 {
     /**
@@ -43,14 +40,18 @@ class SnsQueueCest
         $I->assertTrue($actualTwo);
     }
 
-    public function offerTwo(): void
+    public function offerTwo(ContractTester $I): void
     {
         // arrange
         $queue = new SqsQueue(SqsClientMother::default(), $this->queueName);
 
         // act
-        $queue->offer(EnvelopeMother::any());
-        $queue->offer(EnvelopeMother::any());
+        $actualOne = $queue->offer(EnvelopeMother::any());
+        $actualTwo = $queue->offer(EnvelopeMother::any());
+
+        // assert
+        $I->assertTrue($actualOne);
+        $I->assertTrue($actualTwo);
     }
 
     public function remove(ContractTester $I): void
