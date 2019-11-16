@@ -73,8 +73,9 @@ final class SqsQueue implements Queue
     {
         $this->resolveQueueUrl();
         $result = $this->queryForOneMessage();
+        $messages = $result->get('Messages');
 
-        if ($result->get('Messages') && count($result->get('Messages'))) {
+        if ($messages && \count($messages)) {
             $message = $result->get('Messages')[0];
             $envelope = $this->serializer->deserialize($message['Body'], Envelope::class, 'json');
 
@@ -95,8 +96,9 @@ final class SqsQueue implements Queue
     {
         $this->resolveQueueUrl();
         $result = $this->queryForOneMessage();
+        $messages = $result->get('Messages');
 
-        if ($result->get('Messages') && count($result->get('Messages'))) {
+        if ($messages && \count($messages)) {
             $message = $result->get('Messages')[0];
 
             return $this->serializer->deserialize($message['Body'], Envelope::class, 'json');
